@@ -8,7 +8,7 @@ module.exports = {
     run: async (client, interaction) => {
         try {
             // Check if user is already registered using EXISTS, returns boolean
-            const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.username}#${interaction.user.discriminator}';`));
+            const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
                 return await interaction.reply({
                     ephemeral: true,

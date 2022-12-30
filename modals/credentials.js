@@ -11,7 +11,7 @@ module.exports = {
             const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const newUser = {
                 id: id,
-                name: interaction.user.username + '#' + interaction.user.discriminator,
+                name: interaction.user.id,
                 email: interaction.fields.getTextInputValue('ignInput'),
                 phone: null,
                 account_number: accountNumber,
