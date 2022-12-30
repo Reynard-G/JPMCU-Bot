@@ -1,14 +1,14 @@
 {
-  "name": "discordjs-v14-bot",
+  "name": "jpmcu-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "LGPL-3.0-or-later",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "GNU General Public License v3.0",
   "devDependencies": {
     "node": "^16.14.0"
   },
