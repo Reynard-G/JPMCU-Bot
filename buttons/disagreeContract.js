@@ -9,7 +9,7 @@ module.exports = {
         const disagreeEmbed = new EmbedBuilder()
             .setTitle('JPMCU Account Registration')
             .setDescription('You have declined the terms and conditions. If you have any questions regarding our Member Contract, please contact a staff member by opening a ticket.')
-            .setColor('#2e3135')
+            .setColor('#2F3136')
             .setFooter({ text: 'JPMCU', iconURL: interaction.guild.iconURL() })
             .setTimestamp();
 

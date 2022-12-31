@@ -7,7 +7,6 @@ module.exports = {
     cooldown: 3000,
     run: async (client, interaction) => {
         try {
-            // Check if user is already registered using EXISTS, returns boolean
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
                 return await interaction.reply({
@@ -26,7 +25,7 @@ module.exports = {
                     .setTitle('JPMCU Account Registration')
                     .setDescription('By clicking the "I Agree" button, you agree to the following **Member Contract**:\n\n' +
                         'https://docs.google.com/document/d/1V5ucuAc_41dCgEIeNsMfWUUtdP6rwk4u6bG7iTpys5w/edit?usp=sharing')
-                    .setColor('#2e3135')
+                    .setColor('#2F3136')
                     .setFooter({ text: 'JPMCU', iconURL: interaction.guild.iconURL() })
                     .setTimestamp();
 

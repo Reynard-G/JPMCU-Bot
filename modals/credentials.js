@@ -48,7 +48,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle('Registration Failed')
                             .setDescription(`An error has occurred while trying to save your credentials. If this error persists, please contact a staff member by opening a ticket..`)
-                            .setColor('#2e3135')
+                            .setColor('#2F3136')
                             .setTimestamp()
                             .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
                     ]
@@ -69,7 +69,7 @@ module.exports = {
                             `\n**Username:** ${newUser.email}` +
                             `\n**Password:** ${interaction.fields.getTextInputValue('passwordInput')}`
                         )
-                        .setColor('#2e3135')
+                        .setColor('#2F3136')
                         .setTimestamp()
                         .setFooter({ text: `JPMCU`, iconURL: interaction.user.avatarURL() })
                 ]
