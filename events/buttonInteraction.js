@@ -7,6 +7,11 @@ client.on('interactionCreate', async interaction => {
     const button = client.buttons.get(interaction.customId);
     if (!button) return;
 
+    if (button.id === 'payLoan_button') {
+        await button.run(client, interaction);
+        return;
+    }
+
     try {
         if (button.permissions) {
             if (!interaction.memberPermissions.has(PermissionsBitField.resolve(button.permissions || []))) {
