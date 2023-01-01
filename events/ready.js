@@ -6,7 +6,7 @@ client.on("ready", () => {
 	const activities = [
 		{ name: `${client.users.cache.size} customers`, type: ActivityType.Watching },
 		{ name: `with money`, type: ActivityType.Playing },
-		{ name: `over customers`, type: ActivityType.Watching },
+		{ name: `music`, type: ActivityType.Listening },
 		{ name: `the Banking Market`, type: ActivityType.Competing }
 	];
 	const status = [
