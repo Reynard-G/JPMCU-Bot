@@ -4,15 +4,13 @@ const chalk = require('chalk');
 
 client.on("ready", () => {
 	const activities = [
-		{ name: `${client.guilds.cache.size} Servers`, type: ActivityType.Listening },
-		{ name: `${client.channels.cache.size} Channels`, type: ActivityType.Playing },
-		{ name: `${client.users.cache.size} Users`, type: ActivityType.Watching },
-		{ name: `Discord.js v14`, type: ActivityType.Competing }
+		{ name: `${client.users.cache.size} customers`, type: ActivityType.Watching },
+		{ name: `with money`, type: ActivityType.Playing },
+		{ name: `over customers`, type: ActivityType.Watching },
+		{ name: `the Banking Market`, type: ActivityType.Competing }
 	];
 	const status = [
-		'online',
-		'dnd',
-		'idle'
+		'dnd'
 	];
 	let i = 0;
 	setInterval(() => {
