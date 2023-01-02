@@ -33,22 +33,22 @@ module.exports = {
                 .setFooter({ text: 'JPMCU', iconURL: interaction.guild.iconURL() })
                 .setTimestamp();
 
-            const agreeButton = new ButtonBuilder()
-                .setCustomId('agreeContract_button')
-                .setLabel('I Agree')
-                .setStyle('Success');
-
-            const disagreeButton = new ButtonBuilder()
-                .setCustomId('disagreeContract_button')
-                .setLabel('I Disagree')
-                .setStyle('Danger');
-
             const buttonRow = new ActionRowBuilder()
-                .addComponents(agreeButton, disagreeButton);
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('agreeContract_button')
+                        .setLabel('I Agree')
+                        .setEmoji('1059331958204801065')
+                        .setStyle('Success'),
+                    new ButtonBuilder()
+                        .setCustomId('disagreeContract_button')
+                        .setLabel('I Disagree')
+                        .setEmoji('1059331996305866823')
+                        .setStyle('Danger')
+                );
 
             await interaction.reply({ embeds: [contractEmbed], components: [buttonRow], ephemeral: true });
             return module.exports = { contractEmbed, buttonRow };
-
         } catch (err) {
             console.log(err);
             return await interaction.reply({

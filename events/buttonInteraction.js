@@ -7,22 +7,22 @@ client.on('interactionCreate', async interaction => {
     const button = client.buttons.get(interaction.customId);
     if (!button) return;
 
-    if (button.id === 'payLoan_button') {
-        await button.run(client, interaction);
-        return;
-    }
-
-    try {
-        if (button.permissions) {
-            if (!interaction.memberPermissions.has(PermissionsBitField.resolve(button.permissions || []))) {
-                const perms = new EmbedBuilder()
-                    .setDescription(`🚫 ${interaction.user}, You don't have \`${button.permissions}\` permissions to interact this button!`)
-                    .setColor('Red');
-                return interaction.reply({ embeds: [perms], ephemeral: true });
+    // Differentiate when the interaction is in a DM or in a guild
+    if (!interaction.guild) {
+        return await button.run(client, interaction);
+    } else {
+        try {
+            if (button.permissions) {
+                if (!interaction.memberPermissions.has(PermissionsBitField.resolve(button.permissions || []))) {
+                    const perms = new EmbedBuilder()
+                        .setDescription(`🚫 ${interaction.user}, You don't have \`${button.permissions}\` permissions to interact this button!`)
+                        .setColor('Red');
+                    return interaction.reply({ embeds: [perms], ephemeral: true });
+                }
             }
+            await button.run(client, interaction);
+        } catch (error) {
+            console.log(error);
         }
-        await button.run(client, interaction);
-    } catch (error) {
-        console.log(error);
     }
 });

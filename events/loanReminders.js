@@ -88,6 +88,7 @@ cron.schedule('59 23 * * *', async () => {
                         const payLoanButton = new ButtonBuilder()
                             .setCustomId('payLoan_button')
                             .setLabel('Pay Loan')
+                            .setEmoji('💸')
                             .setStyle('Success');
 
                         const buttonRow = new ActionRowBuilder()

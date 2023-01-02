@@ -81,12 +81,14 @@ module.exports = {
                         .addComponents(
                             new ButtonBuilder()
                                 .setCustomId('previous')
-                                .setLabel('⬅️ Previous')
+                                .setLabel('Previous')
+                                .setEmoji('⬅️')
                                 .setStyle('Primary')
                                 .setDisabled(true),
                             new ButtonBuilder()
                                 .setCustomId('next')
-                                .setLabel('➡️ Next')
+                                .setLabel('Next')
+                                .setEmoji('➡️')
                                 .setStyle('Primary')
                         )
                 ]
@@ -109,11 +111,13 @@ module.exports = {
                                 .addComponents(
                                     new ButtonBuilder()
                                         .setCustomId('previous')
-                                        .setLabel('⬅️ Previous')
+                                        .setLabel('Previous')
+                                        .setEmoji('⬅️')
                                         .setStyle('Primary'),
                                     new ButtonBuilder()
                                         .setCustomId('next')
-                                        .setLabel('➡️ Next')
+                                        .setLabel('Next')
+                                        .setEmoji('➡️')
                                         .setStyle('Primary')
                                         .setDisabled(page === (pages.length - 1))
                                 )
@@ -129,12 +133,14 @@ module.exports = {
                                 .addComponents(
                                     new ButtonBuilder()
                                         .setCustomId('previous')
-                                        .setLabel('⬅️ Previous')
+                                        .setLabel('Previous')
+                                        .setEmoji('⬅️')
                                         .setStyle('Primary')
                                         .setDisabled(page === 0),
                                     new ButtonBuilder()
                                         .setCustomId('next')
-                                        .setLabel('➡️ Next')
+                                        .setLabel('Next')
+                                        .setEmoji('➡️')
                                         .setStyle('Primary')
                                 )
                         ]
@@ -152,12 +158,14 @@ module.exports = {
                             .addComponents(
                                 new ButtonBuilder()
                                     .setCustomId('previous')
-                                    .setLabel('⬅️ Previous')
+                                    .setLabel('Previous')
+                                    .setEmoji('⬅️')
                                     .setStyle('Primary')
                                     .setDisabled(true),
                                 new ButtonBuilder()
                                     .setCustomId('next')
-                                    .setLabel('➡️ Next')
+                                    .setLabel('Next')
+                                    .setEmoji('➡️')
                                     .setStyle('Primary')
                                     .setDisabled(true)
                             )

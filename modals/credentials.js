@@ -22,6 +22,22 @@ module.exports = {
                 });
             }
 
+            // Check if password is valid
+            const password = interaction.fields.getTextInputValue('passwordInput');
+            if (isNaN(password)) {
+                return await interaction.reply({
+                    ephemeral: true,
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('Registration Failed')
+                            .setDescription(`The password you entered is invalid. EX: 1234 or 654321.`)
+                            .setColor('Red')
+                            .setTimestamp()
+                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
+                    ]
+                });
+            }
+
             // Assign user details
             const id = parseInt((((await client.query(`SELECT MAX(id) FROM users;`))[0]['MAX(id)']).toString()).replace('n', '')) + 1;
             const accountNumber = parseInt((((await client.query(`SELECT MAX(account_number) FROM users;`))[0]['MAX(account_number)']).toString()).replace('n', '')) + 1;
@@ -39,7 +55,7 @@ module.exports = {
                 profile_picture: '',
                 email_verified_at: null,
                 sms_verified_at: null,
-                password: bcrypt.hashSync(interaction.fields.getTextInputValue('passwordInput'), 10),
+                password: bcrypt.hashSync(password, 10),
                 provider: null,
                 provider_id: null,
                 country_code: null,
