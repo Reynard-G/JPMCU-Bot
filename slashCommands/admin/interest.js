@@ -53,7 +53,7 @@ module.exports = {
                 );
 
             // Get users from database with "user_type" as "customer"
-            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer' AND name = '399708215534944267'`);
+            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer' AND name = '${interaction.user.id}'`);
             // Get the total amount of money from the "users" variable in "transactions" table
             let totalMoney = (await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'cr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'dr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'];
             totalMoney = roundDecimals(totalMoney, 2);
