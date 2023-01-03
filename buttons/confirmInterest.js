@@ -28,7 +28,7 @@ module.exports = {
                 const maxID = Number((await client.query(`SELECT MAX(id) FROM transactions`))[0]['MAX(id)']) + 1;
                 // Add interest to user balance
                 totalInterest += interest;
-                await client.query(`INSERT INTO transactions (id, user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES (NULL, '${id}', '4', '${interest}', '0.00', 'cr', 'Deposit', 'Manual', '2', '${month} Interest', '${id}', '${date}', '${date}');`);
+                await client.query(`INSERT INTO transactions (id, user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES ('${maxID}', '${id}', '4', '${interest}', '0.00', 'cr', 'Deposit', 'Manual', '2', '${month} Interest', '${id}', '${date}', '${date}');`);
             }
             // Disable the buttons
             buttonRow.components.forEach(button => button.setDisabled(true));
