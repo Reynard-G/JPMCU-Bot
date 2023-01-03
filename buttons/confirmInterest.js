@@ -12,6 +12,8 @@ module.exports = {
         let totalInterest = 0;
 
         try {
+            // Defer the update to the button
+            await interaction.deferUpdate();
             // Apply interest to all users
             for (const i of Object.keys(users)) {
                 // Get all user IDs
