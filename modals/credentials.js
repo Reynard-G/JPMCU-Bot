@@ -97,11 +97,12 @@ module.exports = {
             } catch (error) {
                 console.log(error);
                 await interaction.reply({
+                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Successful')
                             .setDescription(
-                                `There has been an error sending your credentials to your DMS, therefore you will receive your account credentials in this channel.` +
+                                `There has been an error sending your credentials to your DMS, therefore you will receive your account credentials in this channel. Please keep these credentials safe as this is not a normal message and will delete itself once Discord is restarted.` +
                                 `\n\nYour account credentials are as follows:` +
                                 `\n**Username:** ${newUser.email}` +
                                 `\n**Password:** ${interaction.fields.getTextInputValue('passwordInput')}` +
