@@ -36,7 +36,7 @@ module.exports = {
             buttonRow.components.forEach(button => button.setDisabled(true));
 
             // Edit the embed with the new disabled buttons
-            await interaction.update({
+            await interaction.editReply({
                 embeds: [interestEmbed],
                 components: [buttonRow]
             });
