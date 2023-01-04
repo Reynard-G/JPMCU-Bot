@@ -7,10 +7,19 @@ module.exports = {
     cooldown: 3000,
     run: async (client, interaction) => {
         try {
+
+            // Convert date to unix time
+            function convertToUnixTime(date) {
+                return (Date.parse(`${date}`) / 1000);
+            }
+
+            // Defer the reply so the bot doesn't time out
+            await interaction.deferReply({ ephemeral: true });
+
             // Check if user is registered
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if (!((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1')))) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -23,11 +32,17 @@ module.exports = {
                 });
             }
 
+            // Dictionary of transaction types
+            const types = {
+                'cr': '📈',
+                'dr': '📉'
+            };
+
             // Dictionary of statuses
             const statuses = {
-                0 : 'Cancelled',
-                1 : 'Pending',
-                2 : 'Completed'
+                0: 'Cancelled',
+                1: 'Pending',
+                2: 'Completed'
             };
 
             // Get user's transaction history
@@ -55,32 +70,30 @@ module.exports = {
                         .setFooter({ text: `JPMCU | Page ${page + 2}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
                     page++;
                 }
-                if (transactions[i].dr_cr === 'cr') {
-                    embed.addFields(
-                        {name: `📈 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
-                    );
-                } else if (transactions[i].dr_cr === 'dr') {
-                    embed.addFields(
-                        {name: `📉 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
-                    );
-                } else {
-                    embed.addFields(
-                        {name: `💵 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
-                    )
-                }
+                
+                embed.addFields(
+                    {
+                        name: `${types[transactions[i].dr_cr]} Transaction #${transactions[i].id}`,
+                        value: `Amount: $${transactions[i].amount}
+                        Type: ${transactions[i].dr_cr}
+                        Status: ${statuses[transactions[i].status]}
+                        Date: <t:${convertToUnixTime(transactions[i].updated_at)}:F>
+                        Description: ${transactions[i].note}`
+                    }
+                );
             }
             pages.push(embed);
 
             // If the user has less than 10 transactions, just send the embed
             if (pages.length === 1) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [pages[0]]
                 });
             }
 
             // Send the first page
-            const msg = await interaction.reply({
+            const msg = await interaction.editReply({
                 ephemeral: true,
                 embeds: [pages[0]],
                 components: [
@@ -100,7 +113,7 @@ module.exports = {
                         )
                 ]
             });
-            
+
             // Create a collector for the buttons
             const filter = (button) => button.user.id === interaction.user.id;
             const collector = msg.createMessageComponentCollector({ filter, time: 300000 });
@@ -181,7 +194,7 @@ module.exports = {
             });
         } catch (err) {
             console.error(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
