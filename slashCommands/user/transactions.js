@@ -23,6 +23,13 @@ module.exports = {
                 });
             }
 
+            // Dictionary of statuses
+            const statuses = {
+                0 : 'Cancelled',
+                1 : 'Pending',
+                2 : 'Completed'
+            };
+
             // Get user's transaction history
             const userID = (await client.query(`SELECT id FROM users WHERE name = '${interaction.user.id}';`))[0].id;
             const transactions = (await client.query(`SELECT * FROM transactions WHERE user_id = '${userID}';`));
@@ -50,15 +57,15 @@ module.exports = {
                 }
                 if (transactions[i].dr_cr === 'cr') {
                     embed.addFields(
-                        {name: `📈 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
+                        {name: `📈 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
                     );
                 } else if (transactions[i].dr_cr === 'dr') {
                     embed.addFields(
-                        {name: `📉 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
+                        {name: `📉 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
                     );
                 } else {
                     embed.addFields(
-                        {name: `💵 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
+                        {name: `💵 Transaction #${transactions[i].id}`, value: `Amount: $${transactions[i].amount}\nType: ${transactions[i].dr_cr}\nStatus: ${statuses[transactions[i].status]}\nDate: ${transactions[i].updated_at}\nDescription: ${transactions[i].note}`}
                     )
                 }
             }
