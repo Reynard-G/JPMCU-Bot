@@ -1,4 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { subtract, multiply, divide, round, bignumber } = require('mathjs');
 
 module.exports = {
     name: 'interest',
@@ -15,9 +16,6 @@ module.exports = {
         }
     ],
     run: async (client, interaction) => {
-        function roundDecimals(num, digits) {
-            return +(Math.round(num + "e+" + digits) + "e-" + digits);
-        }
         try {
             // Get the value from the interaction
             const percentage = interaction.options.getNumber('percentage');
@@ -53,16 +51,15 @@ module.exports = {
                 );
 
             // Get users from database with "user_type" as "customer"
-            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer'`);
+            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer' AND name = '399708215534944267'`);
             // Get the total amount of money from the "users" variable in "transactions" table
-            let totalMoney = (await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'cr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'dr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'];
-            totalMoney = roundDecimals(totalMoney, 2);
+            const totalMoney = round(subtract(bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'cr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)']), bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'dr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'])), 2);
 
             const interestEmbed = new EmbedBuilder()
                 .setTitle('Applying Interest')
                 .setDescription(`Are you sure you want to apply **${percentage}%** interest to **${Object.keys(users).length}** accounts?` +
                     `\n Estimated balance of **${Object.keys(users).length}** accounts: **$${totalMoney}**` +
-                    `\nEstimated interest applied: **$${roundDecimals(totalMoney * (percentage / 100), 2)}**`
+                    `\nEstimated interest applied: **$${round(multiply(divide(totalMoney, 100), percentage), 2)}**`
                 )
                 .setColor('#2F3136')
                 .setTimestamp()

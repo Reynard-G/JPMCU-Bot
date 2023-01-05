@@ -1,12 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
+const { add, subtract, multiply, divide, round, bignumber } = require('mathjs');
 
 module.exports = {
     id: 'confirmInterest_button',
     permissions: [],
     run: async (client, interaction) => {
-        function roundDecimals(num, digits) {
-            return +(Math.round(num + "e+" + digits) + "e-" + digits);
-        }
 
         const { interestEmbed, buttonRow, users, totalMoney, percentage } = require('../slashCommands/admin/interest.js');
         let totalInterest = 0;
@@ -19,17 +17,17 @@ module.exports = {
                 // Get all user IDs
                 const id = users[i].id;
                 // Select user balance from "transactions" database
-                const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${id}' AND dr_cr = 'cr';`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${id}' AND dr_cr = 'dr';`))[0]['SUM(amount)'];
+                const balance = round(subtract(bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${id}' AND dr_cr = 'cr';`))[0]['SUM(amount)']), bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${id}' AND dr_cr = 'dr';`))[0]['SUM(amount)'])), 2);
                 // Calculate interest
-                const interest = roundDecimals(balance * (percentage / 100), 2);
+                const interest = round(multiply(divide(balance, 100), percentage), 2);
                 // Get current date/time
                 const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 // Get current month in name
                 const month = new Date().toLocaleString('default', { month: 'long' });
                 // Get the max ID from "transactions" database
-                const maxID = Number((await client.query(`SELECT MAX(id) FROM transactions`))[0]['MAX(id)']) + 1;
+                const maxID = add(bignumber(`${(await client.query(`SELECT MAX(id) FROM transactions`))[0]['MAX(id)']}`), 1);
                 // Add interest to user balance
-                totalInterest += interest;
+                totalInterest = round(add(bignumber(totalInterest), bignumber(interest)), 2);
                 await client.query(`INSERT INTO transactions (id, user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES ('${maxID}', '${id}', '4', '${interest}', '0.00', 'cr', 'Deposit', 'Manual', '2', '${month} Interest', '${id}', '${date}', '${date}');`);
             }
             // Disable the buttons
