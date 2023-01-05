@@ -74,11 +74,11 @@ module.exports = {
                 embed.addFields(
                     {
                         name: `${types[transactions[i].dr_cr] ?? '💸'} Transaction #${transactions[i].id}`,
-                        value: `Amount: $${transactions[i].amount}
-                        Type: ${transactions[i].dr_cr}
-                        Status: ${statuses[transactions[i].status] ?? 'Unknown/Invalid'}
-                        Date: <t:${convertToUnixTime(transactions[i].updated_at)}:F>
-                        Description: ${transactions[i].note}`
+                        value: `Amount: $${transactions[i].amount}` +
+                        `\nType: ${transactions[i].dr_cr}` +
+                        `\nStatus: ${statuses[transactions[i].status] ?? 'Unknown/Invalid'}` + 
+                        `\nDate: <t:${convertToUnixTime(transactions[i].updated_at)}:F>` +
+                        `\nDescription: ${transactions[i].note}`
                     }
                 );
             }
