@@ -6,11 +6,14 @@ module.exports = {
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
     run: async (client, interaction) => {
+        // Defer the reply so the bot doesn't time out
+        await interaction.deferReply({ ephemeral: true });
+
         try {
             // Check if user is registered
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if (!((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1')))) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -27,7 +30,7 @@ module.exports = {
             const userID = (await client.query(`SELECT id FROM users WHERE name = '${interaction.user.id}';`))[0].id;
             const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'cr';`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'dr';`))[0]['SUM(amount)'];
 
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
@@ -40,7 +43,7 @@ module.exports = {
             });
         } catch (err) {
             console.log(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
