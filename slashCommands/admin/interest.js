@@ -1,5 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require('discord.js');
-const { subtract, multiply, divide, round, bignumber } = require('mathjs');
+const { Decimal } = require('decimal.js');
 
 module.exports = {
     name: 'interest',
@@ -18,7 +18,7 @@ module.exports = {
     run: async (client, interaction) => {
         try {
             // Get the value from the interaction
-            const percentage = interaction.options.getNumber('percentage');
+            const percentage = new Decimal(`${interaction.options.getNumber('percentage')}`);
 
             // Check if percentage is a valid number
             if (isNaN(percentage) && !percentage.includes('%')) {
@@ -51,15 +51,15 @@ module.exports = {
                 );
 
             // Get users from database with "user_type" as "customer"
-            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer' AND name = '399708215534944267'`);
+            const users = await client.query(`SELECT * FROM users WHERE user_type = 'customer' AND branch_id = '1'`);
             // Get the total amount of money from the "users" variable in "transactions" table
-            const totalMoney = round(subtract(bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'cr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)']), bignumber((await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'dr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)'])), 2);
+            const totalMoney = (Decimal.sub(new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'cr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)']}`), new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE dr_cr = 'dr' AND user_id IN (${users.map(user => user.id).join(',')})`))[0]['SUM(amount)']}`))).toDecimalPlaces(2);
 
             const interestEmbed = new EmbedBuilder()
                 .setTitle('Applying Interest')
                 .setDescription(`Are you sure you want to apply **${percentage}%** interest to **${Object.keys(users).length}** accounts?` +
                     `\n Estimated balance of **${Object.keys(users).length}** accounts: **$${totalMoney}**` +
-                    `\nEstimated interest applied: **$${round(multiply(divide(totalMoney, 100), percentage), 2)}**`
+                    `\nEstimated interest applied: **$${(Decimal.mul(Decimal.div(totalMoney, 100), percentage)).toDecimalPlaces(2)}**`
                 )
                 .setColor('#2F3136')
                 .setTimestamp()
@@ -70,7 +70,7 @@ module.exports = {
                 components: [buttonRow]
             });
 
-            return module.exports = { interestEmbed, buttonRow, users, totalMoney, percentage };
+            return module.exports = { interestEmbed, buttonRow, users, percentage };
         } catch (err) {
             console.log(err);
             return await interaction.reply({
