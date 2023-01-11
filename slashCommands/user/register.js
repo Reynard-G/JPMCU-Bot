@@ -6,11 +6,14 @@ module.exports = {
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
     run: async (client, interaction) => {
+        // Defer the reply so the bot doesn't time out
+        await interaction.deferReply({ ephemeral: true });
+
         try {
             // Check if user is already registered
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -47,11 +50,11 @@ module.exports = {
                         .setStyle('Danger')
                 );
 
-            await interaction.reply({ embeds: [contractEmbed], components: [buttonRow], ephemeral: true });
+            await interaction.editReply({ embeds: [contractEmbed], components: [buttonRow], ephemeral: true });
             return module.exports = { contractEmbed, buttonRow };
         } catch (err) {
             console.log(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()

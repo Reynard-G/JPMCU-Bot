@@ -5,11 +5,14 @@ module.exports = {
     id: 'agreeContract_modal',
     permissions: [],
     run: async (client, interaction) => {
+        // Defer the reply so the bot doesn't time out
+        await interaction.deferReply({ ephemeral: true });
+
         try {
             // Check if user is already registered
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -25,7 +28,7 @@ module.exports = {
             // Check if password is valid
             const password = interaction.fields.getTextInputValue('passwordInput');
             if (isNaN(password)) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -52,7 +55,7 @@ module.exports = {
             // Send the user their account credentials
             // Handle the error when the user has DMs disabled
             try {
-                await interaction.reply({
+                await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -81,7 +84,7 @@ module.exports = {
                 });
             } catch (error) {
                 console.log(error);
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -101,7 +104,7 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()

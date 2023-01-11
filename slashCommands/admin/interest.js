@@ -16,13 +16,16 @@ module.exports = {
         }
     ],
     run: async (client, interaction) => {
+        // Defer the reply so the bot doesn't time out
+        await interaction.deferReply();
+
         try {
             // Get the value from the interaction
             const percentage = new Decimal(`${interaction.options.getNumber('percentage')}`);
 
             // Check if percentage is a valid number
             if (isNaN(percentage) && !percentage.includes('%')) {
-                return await interaction.reply({
+                return await interaction.editReply({
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
@@ -65,7 +68,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() });
 
-             await interaction.reply({
+             await interaction.editReply({
                 embeds: [interestEmbed],
                 components: [buttonRow]
             });
@@ -73,7 +76,7 @@ module.exports = {
             return module.exports = { interestEmbed, buttonRow, users, percentage };
         } catch (err) {
             console.log(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
