@@ -4,6 +4,9 @@ module.exports = {
     id: 'payLoan_button',
     permissions: [],
     run: async (client, interaction) => {
+        // Defer the reply so the bot doesn't time out
+        await interaction.deferReply();
+
         try {
             const userID = (await client.query(`SELECT id FROM users WHERE name = '${interaction.user.id}';`))[0].id;
             const loanID = (await client.query(`SELECT id FROM loans WHERE borrower_id = '${userID}';`))[0].id;
@@ -30,7 +33,7 @@ module.exports = {
             // Update the status of the repayment in loan_repayments table
             await client.query(`UPDATE loan_repayments SET status = '1' WHERE id = '${currentRepayment.id}';`);
 
-            return await interaction.reply({
+            return await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Loan Payment Successful')
@@ -42,7 +45,7 @@ module.exports = {
             });
         } catch (err) {
             console.log(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()

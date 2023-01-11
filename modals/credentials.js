@@ -47,27 +47,10 @@ module.exports = {
             const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
             await client.query(`INSERT INTO users (id, name, email, account_number, user_type, branch_id, status, profile_picture, password, created_at, updated_at, allow_withdrawal) VALUES (${id}, '${interaction.user.id}', '${interaction.fields.getTextInputValue('ignInput')}', ${accountNumber}, 'customer', '1', '1', '', '${bcrypt.hashSync(password, 10)}', '${date}', '${date}', '1');`);
 
-            // Assign the user to the member role
-            require('dotenv').config();
-            const memberRole = interaction.guild.roles.cache.get(process.env.MEMBER_ROLE_ID);
-            await interaction.member.roles.add(memberRole);
-
             // Send the user their account credentials
             // Handle the error when the user has DMs disabled
             try {
-                await interaction.editReply({
-                    ephemeral: true,
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle('Registration Successful')
-                            .setDescription(`Your account credentials have been sent to your DMS. Please keep those credentials safe as they are the only way to access your account through the website.`)
-                            .setColor('Green')
-                            .setTimestamp()
-                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
-                    ]
-                })
-
-                return await interaction.user.send({
+                await interaction.user.send({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Account Credentials')
@@ -80,6 +63,18 @@ module.exports = {
                             .setColor('#2F3136')
                             .setTimestamp()
                             .setFooter({ text: `JPMCU`, iconURL: interaction.user.avatarURL() })
+                    ]
+                });
+
+                return await interaction.editReply({
+                    ephemeral: true,
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle('Registration Successful')
+                            .setDescription(`Your account credentials have been sent to your DMS. Please keep those credentials safe as they are the only way to access your account through the website.`)
+                            .setColor('Green')
+                            .setTimestamp()
+                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
                     ]
                 });
             } catch (error) {
