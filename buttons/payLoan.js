@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     id: 'payLoan_button',
@@ -9,7 +9,7 @@ module.exports = {
 
         try {
             const userID = (await client.query(`SELECT id FROM users WHERE name = '${interaction.user.id}';`))[0].id;
-            const loanID = (await client.query(`SELECT id FROM loans WHERE borrower_id = '${userID}';`))[0].id;
+            const loanID = (interaction.message.embeds[0].footer.text).split('#')[1];
             const repayments = await client.query(`SELECT * FROM loan_repayments WHERE loan_id = '${loanID}';`);
 
             // Get the next repayment date and convert it to local time
@@ -40,7 +40,7 @@ module.exports = {
                         .setDescription(`You have successfully paid your current loan period of **$${currentRepayment.amount_to_pay}**.`)
                         .setColor('Green')
                         .setTimestamp()
-                        .setFooter({ text: `JPMCU`, iconURL: interaction.user.avatarURL() })
+                        .setFooter({ text: `JPMCU • Loan ID#${loanID}`, iconURL: interaction.user.avatarURL() })
                 ]
             });
         } catch (err) {

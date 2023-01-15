@@ -27,33 +27,43 @@ function convertDaysToPeriod(days) {
 cron.schedule('59 23 * * *', async () => {
     try {
         const loans = [];
-        const loanDetails = await client.query(`SELECT loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable FROM loans;`);
+        const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans;`);
         const loanTerms = await client.query(`SELECT id, term, term_period FROM loan_products;`);
         const usernames = await client.query(`SELECT id, name FROM users;`);
         const loansCount = (await client.query(`SELECT COUNT(*) FROM loans;`))[0]['COUNT(*)'];
-        let userID;
+
+        // Compile all the loan details into an array
+        let userID, loanID, paid, payable;
         for (let i = 0; i < loansCount; i++) {
             userID = ((await client.query(`SELECT id FROM users WHERE id = '${loanDetails[i].borrower_id}';`))[0]).id;
+            loanID = ((await client.query(`SELECT id FROM loans WHERE id = '${loanDetails[i].id}';`))[0]).id;
+            paid = loanDetails.filter(loan => loan.id === loanID)[0].total_paid ?? '0.00';
+            payable = loanDetails.filter(loan => loan.id === loanID)[0].total_payable;
+            if (paid >= payable) { continue; }
             loans.push({
+                loan_id: loanID,
                 name: usernames.filter(user => user.id === userID)[0].name,
                 id: userID,
-                first_payment_date: loanDetails.filter(loan => loan.borrower_id === userID)[0].first_payment_date,
-                loan_product_id: loanDetails.filter(loan => loan.borrower_id === userID)[0].loan_product_id,
+                first_payment_date: loanDetails.filter(loan => loan.id === loanID)[0].first_payment_date, // ADD A WAY TO DIFFERENTIATE BETWEEN MULTIPLE LOANS
+                loan_product_id: loanDetails.filter(loan => loan.id === loanID)[0].loan_product_id,
                 term: loanTerms.filter(term => term.id === loanDetails[i].loan_product_id)[0].term,
                 term_period: loanTerms.filter(term => term.id === loanDetails[i].loan_product_id)[0].term_period,
-                loan_amount: loanDetails[i].applied_amount,
-                loan_payable: loanDetails[i].total_payable
+                loan_amount: loanDetails.filter(loan => loan.id === loanID)[0].applied_amount,
+                loan_paid: paid,
+                loan_payable: payable
             });
         }
 
         let amountDue = 0;
+        let tomorrow = new Date();
+        tomorrow.setDate((new Date()).getDate() + 1);
         for (let i = 0; i < loans.length; i++) {
             let periodDate = new Date();
             let paymentDate = loans[i].first_payment_date;
             for (let j = 0; j < loans[i].term; j++) {
-                let tomorrow = new Date();
-                tomorrow.setDate((new Date()).getDate() + 1);
-                periodDate = addDays(periodDate, paymentDate.getDate() + (convertPeriodToDays(loans[i].term_period) * j));
+                // Add the term period to the payment date
+                periodDate.setDate(paymentDate.getDate() + (convertPeriodToDays(loans[i].term_period) * j));
+                // Check all period dates to see if they match tomorrow's date
                 if (periodDate.getDate() === tomorrow.getDate() && periodDate.getMonth() === tomorrow.getMonth() && periodDate.getFullYear() === tomorrow.getFullYear()) {
                     amountDue = +(Math.round((loans[i].loan_payable / loans[i].term) + "e+2") + "e-2");
                     const user = await client.users.fetch(loans[i].name);
@@ -71,6 +81,7 @@ cron.schedule('59 23 * * *', async () => {
                                 name: 'Loan Details',
                                 value: `**Loan Amount:** $${loans[i].loan_amount}
                                 **Loan Payable:** $${loans[i].loan_payable}
+                                **Loan Paid:** $${loans[i].loan_paid}
                                 **Loan Term:** ${loans[i].term}
                                 **Loan Term Period:** ${loans[i].term_period}`,
                                 inline: true
@@ -78,7 +89,7 @@ cron.schedule('59 23 * * *', async () => {
                         )
                         .setColor('#2F3136')
                         .setTimestamp()
-                        .setFooter({ text: `JPMCU`, iconURL: client.user.avatarURL() });
+                        .setFooter({ text: `JPMCU • Loan ID#${loans[i].loan_id}`, iconURL: client.user.avatarURL() });
 
                     // Check if the user has enough money to pay the loan payment
                     const userID = (await client.query(`SELECT id FROM users WHERE name = '${loans[i].name}';`))[0].id;
@@ -94,11 +105,12 @@ cron.schedule('59 23 * * *', async () => {
                         const buttonRow = new ActionRowBuilder()
                             .addComponents(payLoanButton);
 
+                        console.log(`Send to ${loans[i].name} that their loan payment is due tomorrow.`);
                         await user.send({ embeds: [reminderEmbed], components: [buttonRow] });
                     } else {
+                        console.log(`Send to ${loans[i].name} that their loan payment is due tomorrow.`);
                         await user.send({ embeds: [reminderEmbed] });
                     }
-                } else {
                 }
             }
         }
