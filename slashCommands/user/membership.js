@@ -65,7 +65,7 @@ module.exports = {
         }
 
         // Check if user already has the membership role
-        const roleID = '1058266805883383888'; //1025591402102526072
+        const roleID = '1025591402102526072';
         const memberRole = interaction.guild.roles.cache.get(roleID);
         if (interaction.guild.members.cache.get(userID).roles.cache.has(memberRole.id)) {
             return await interaction.editReply({
