@@ -79,11 +79,11 @@ cron.schedule('59 23 * * *', async () => {
                             },
                             {
                                 name: 'Loan Details',
-                                value: `**Loan Amount:** $${loans[i].loan_amount}
-                                **Loan Payable:** $${loans[i].loan_payable}
-                                **Loan Paid:** $${loans[i].loan_paid}
-                                **Loan Term:** ${loans[i].term}
-                                **Loan Term Period:** ${loans[i].term_period}`,
+                                value: `**Loan Amount:** $${loans[i].loan_amount}` +
+                                `\n**Loan Payable:** $${loans[i].loan_payable}` +
+                                `\n**Loan Paid:** $${loans[i].loan_paid}` +
+                                `\n**Loan Term:** ${loans[i].term}` +
+                                `\n**Loan Term Period:** ${loans[i].term_period}`,
                                 inline: true
                             }
                         )

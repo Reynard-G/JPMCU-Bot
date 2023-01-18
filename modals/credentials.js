@@ -44,8 +44,7 @@ module.exports = {
             // Assign user details
             const id = parseInt((((await client.query(`SELECT MAX(id) FROM users;`))[0]['MAX(id)']).toString()).replace('n', '')) + 1;
             const accountNumber = parseInt((((await client.query(`SELECT MAX(account_number) FROM users;`))[0]['MAX(account_number)']).toString()).replace('n', '')) + 1;
-            const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            await client.query(`INSERT INTO users (id, name, email, account_number, user_type, branch_id, status, profile_picture, password, created_at, updated_at, allow_withdrawal) VALUES (${id}, '${interaction.user.id}', '${interaction.fields.getTextInputValue('ignInput')}', ${accountNumber}, 'customer', '1', '1', '', '${bcrypt.hashSync(password, 10)}', '${date}', '${date}', '1');`);
+            await client.query(`INSERT INTO users (id, name, email, account_number, user_type, branch_id, status, profile_picture, password, created_at, updated_at, allow_withdrawal) VALUES (${id}, '${interaction.user.id}', '${interaction.fields.getTextInputValue('ignInput')}', ${accountNumber}, 'customer', '1', '1', '', '${bcrypt.hashSync(password, 10)}', NOW(), NOW(), '1');`);
 
             // Send the user their account credentials
             // Handle the error when the user has DMs disabled
