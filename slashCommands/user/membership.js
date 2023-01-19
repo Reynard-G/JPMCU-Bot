@@ -15,7 +15,7 @@ module.exports = {
     ],
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
         const user = interaction.options.getUser('waiver');
 
         let userID;
@@ -38,6 +38,7 @@ module.exports = {
         const allowed = Object.values(allowedRoles).some(role => userRoles.includes(role));
         if ((!allowed) && (user !== null)) {
             return await interaction.editReply({
+                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Membership Application Failed')
@@ -53,6 +54,7 @@ module.exports = {
         const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${userID}';`));
         if ((Object.keys(userExists).length === 0) || (!userExists[0].hasOwnProperty('1'))) {
             return await interaction.editReply({
+                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Registration Failed')
@@ -69,6 +71,7 @@ module.exports = {
         const memberRole = interaction.guild.roles.cache.get(roleID);
         if (interaction.guild.members.cache.get(userID).roles.cache.has(memberRole.id)) {
             return await interaction.editReply({
+                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Membership Application Failed')
@@ -89,6 +92,7 @@ module.exports = {
                 
                 if (balance < 850) {
                     return await interaction.editReply({
+                        ephemeral: true,
                         embeds: [
                             new EmbedBuilder()
                                 .setTitle('Membership Application Failed')
@@ -120,6 +124,7 @@ module.exports = {
                 // Give the user the membership role
                 await interaction.guild.members.cache.get(userID).roles.add(roleID);
                 return await interaction.editReply({
+                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Membership Application Successful')
@@ -133,6 +138,7 @@ module.exports = {
                 // Give the user the membership role
                 await interaction.guild.members.cache.get(userID).roles.add(roleID);
                 return await interaction.editReply({
+                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Membership Application Successful')
@@ -146,6 +152,7 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return await interaction.editReply({
+                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Membership Application Failed')
