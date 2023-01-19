@@ -21,7 +21,7 @@ The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
     
 ## Environment Variables
 To run this project, you will need to add the following environment variables to your .env file
-```env
+```txt
 TOKEN=
 CLIENT_ID=
 GUILD_ID= // Fill if you want to register
