@@ -17,14 +17,8 @@ module.exports = {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
         const user = interaction.options.getUser('waiver');
-
-        let userID;
-        if (user !== null) {
-            userID = user.id;
-        } else {
-            userID = interaction.user.id;
-        }
-
+        let userID = user !== null ? user.id : interaction.user.id;
+        
         // Check if the user's roles is any of the allowed roles
         const allowedRoles = {
             'Owner': '962086358376149053',
