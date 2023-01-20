@@ -14,11 +14,69 @@ const client = new Client({
 const fs = require('fs');
 require('dotenv').config();
 
-client.commands = new Collection();
 client.aliases = new Collection();
 client.slashCommands = new Collection();
 client.buttons = new Collection();
 client.modals = new Collection();
+client.cryptoTickers = [
+	"BTCUSD",
+	"ETHUSD"
+];
+client.stockTickers = [
+	"GOOGL",
+	"NSANY",
+	"AAPL",
+	"TSLA",
+	"V",
+	"PEP",
+	"WMT",
+	"AMZN",
+	"EBAY",
+	"LUV",
+	"JPM",
+	"T",
+	"SSNLF",
+	"FDX",
+	"KR",
+	"COST",
+	"PNRA",
+	"SBUX",
+	"DNKN",
+	"WBA",
+	"CVS",
+	"MCD",
+	"QSR",
+	"META",
+	"CMG",
+	"YUM",
+	"CSCO",
+	"HLT",
+	"MSFT",
+	"INTC",
+	"KHC",
+	"WFC",
+	"MPC",
+	"HBAN",
+	"LOW",
+	"HD",
+	"PPRUY",
+	"CPRI",
+	"PRDSF",
+	"CCL",
+	"DIS",
+	"VZ",
+	"TMUS",
+	"NFLX",
+	"AMD",
+	"NVDA",
+	"AXP",
+	"F",
+	"GM",
+	"SHEL",
+	"UPS",
+	"UAL",
+	"SHOP"
+];
 
 module.exports = client;
 

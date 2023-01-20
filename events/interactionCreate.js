@@ -1,5 +1,5 @@
 const { EmbedBuilder, Collection, PermissionsBitField } = require('discord.js');
-const ms = require('ms');
+const moment = require('moment');
 const client = require('..');
 
 const cooldown = new Collection();
@@ -20,7 +20,7 @@ client.on('interactionCreate', async interaction => {
 			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) {
 				const cooldownEmbed = new EmbedBuilder()
 					.setTitle('Cooldown')
-					.setDescription(`You are currently on cooldown. Please wait **${ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })}**.`)
+					.setDescription(`You are currently on cooldown. Please wait **${moment.duration(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now()).asSeconds()}s**.`)
 					.setColor('Red')
 					.setTimestamp()
 					.setFooter({ text: `${interaction.user.id} `, iconURL: interaction.user.displayAvatarURL() });

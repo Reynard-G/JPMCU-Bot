@@ -1,0 +1,567 @@
+{
+    "META": {
+        "Symbol": "META",
+        "Timestamp": "2023-01-19T20:59:59.990966091Z",
+        "Exchange": "V",
+        "Price": 136.14,
+        "Size": 397,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 7082,
+        "Tape": "C"
+    },
+    "MCD": {
+        "Symbol": "MCD",
+        "Timestamp": "2023-01-19T20:59:56.824975872Z",
+        "Exchange": "V",
+        "Price": 263.55,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57634994407029,
+        "Tape": "A"
+    },
+    "UAL": {
+        "Symbol": "UAL",
+        "Timestamp": "2023-01-19T20:59:50.028336389Z",
+        "Exchange": "V",
+        "Price": 48.39,
+        "Size": 100,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 4786,
+        "Tape": "C"
+    },
+    "INTC": {
+        "Symbol": "INTC",
+        "Timestamp": "2023-01-19T20:59:59.578718886Z",
+        "Exchange": "V",
+        "Price": 28.42,
+        "Size": 800,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 7154,
+        "Tape": "C"
+    },
+    "VZ": {
+        "Symbol": "VZ",
+        "Timestamp": "2023-01-19T20:59:59.51876096Z",
+        "Exchange": "V",
+        "Price": 40.07,
+        "Size": 1000,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635160875378,
+        "Tape": "A"
+    },
+    "MPC": {
+        "Symbol": "MPC",
+        "Timestamp": "2023-01-19T20:59:55.543286016Z",
+        "Exchange": "V",
+        "Price": 123.23,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631890432593,
+        "Tape": "A"
+    },
+    "TSLA": {
+        "Symbol": "TSLA",
+        "Timestamp": "2023-01-19T20:59:59.793805189Z",
+        "Exchange": "V",
+        "Price": 127.14,
+        "Size": 381,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 13290,
+        "Tape": "C"
+    },
+    "CCL": {
+        "Symbol": "CCL",
+        "Timestamp": "2023-01-19T20:59:58.538797824Z",
+        "Exchange": "V",
+        "Price": 10.12,
+        "Size": 1000,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635110074190,
+        "Tape": "A"
+    },
+    "AXP": {
+        "Symbol": "AXP",
+        "Timestamp": "2023-01-19T20:59:59.028061952Z",
+        "Exchange": "V",
+        "Price": 146.86,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635128702518,
+        "Tape": "A"
+    },
+    "SBUX": {
+        "Symbol": "SBUX",
+        "Timestamp": "2023-01-19T20:59:59.793607044Z",
+        "Exchange": "V",
+        "Price": 104.26,
+        "Size": 200,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 3506,
+        "Tape": "C"
+    },
+    "QSR": {
+        "Symbol": "QSR",
+        "Timestamp": "2023-01-19T20:59:48.128580096Z",
+        "Exchange": "V",
+        "Price": 65.6,
+        "Size": 400,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631319880565,
+        "Tape": "A"
+    },
+    "LUV": {
+        "Symbol": "LUV",
+        "Timestamp": "2023-01-19T20:59:59.006659328Z",
+        "Exchange": "V",
+        "Price": 36.45,
+        "Size": 200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635127718960,
+        "Tape": "A"
+    },
+    "FDX": {
+        "Symbol": "FDX",
+        "Timestamp": "2023-01-19T20:59:49.967518208Z",
+        "Exchange": "V",
+        "Price": 184.22,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631468369010,
+        "Tape": "A"
+    },
+    "NFLX": {
+        "Symbol": "NFLX",
+        "Timestamp": "2023-01-19T21:50:24.60432519Z",
+        "Exchange": "V",
+        "Price": 335.9,
+        "Size": 199,
+        "Conditions": [
+            "@",
+            "T"
+        ],
+        "ID": 9550,
+        "Tape": "C"
+    },
+    "AAPL": {
+        "Symbol": "AAPL",
+        "Timestamp": "2023-01-19T20:59:59.822154014Z",
+        "Exchange": "V",
+        "Price": 135.27,
+        "Size": 100,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 9771,
+        "Tape": "C"
+    },
+    "KHC": {
+        "Symbol": "KHC",
+        "Timestamp": "2023-01-19T20:59:57.602559511Z",
+        "Exchange": "V",
+        "Price": 40.03,
+        "Size": 100,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 2792,
+        "Tape": "C"
+    },
+    "EBAY": {
+        "Symbol": "EBAY",
+        "Timestamp": "2023-01-19T20:59:56.918993667Z",
+        "Exchange": "V",
+        "Price": 45.52,
+        "Size": 138,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 2895,
+        "Tape": "C"
+    },
+    "NVDA": {
+        "Symbol": "NVDA",
+        "Timestamp": "2023-01-19T21:00:00.000341088Z",
+        "Exchange": "V",
+        "Price": 167.645,
+        "Size": 200,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 11204,
+        "Tape": "C"
+    },
+    "CMG": {
+        "Symbol": "CMG",
+        "Timestamp": "2023-01-19T20:59:15.983555584Z",
+        "Exchange": "V",
+        "Price": 1504.44,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57626454421085,
+        "Tape": "A"
+    },
+    "HLT": {
+        "Symbol": "HLT",
+        "Timestamp": "2023-01-19T20:59:50.210130688Z",
+        "Exchange": "V",
+        "Price": 135.03,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631522907187,
+        "Tape": "A"
+    },
+    "UPS": {
+        "Symbol": "UPS",
+        "Timestamp": "2023-01-19T20:59:51.456641792Z",
+        "Exchange": "V",
+        "Price": 176.145,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631638973238,
+        "Tape": "A"
+    },
+    "AMZN": {
+        "Symbol": "AMZN",
+        "Timestamp": "2023-01-19T20:59:58.200593457Z",
+        "Exchange": "V",
+        "Price": 93.66,
+        "Size": 200,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 12085,
+        "Tape": "C"
+    },
+    "WMT": {
+        "Symbol": "WMT",
+        "Timestamp": "2023-01-19T20:59:56.831643648Z",
+        "Exchange": "V",
+        "Price": 138.81,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57634994534728,
+        "Tape": "A"
+    },
+    "PEP": {
+        "Symbol": "PEP",
+        "Timestamp": "2023-01-19T20:59:59.979836965Z",
+        "Exchange": "V",
+        "Price": 169.64,
+        "Size": 166,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 3879,
+        "Tape": "C"
+    },
+    "WBA": {
+        "Symbol": "WBA",
+        "Timestamp": "2023-01-19T20:59:58.456148172Z",
+        "Exchange": "V",
+        "Price": 35.4,
+        "Size": 200,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 3116,
+        "Tape": "C"
+    },
+    "MSFT": {
+        "Symbol": "MSFT",
+        "Timestamp": "2023-01-19T20:59:59.979238Z",
+        "Exchange": "V",
+        "Price": 232.04,
+        "Size": 399,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 8529,
+        "Tape": "C"
+    },
+    "GOOGL": {
+        "Symbol": "GOOGL",
+        "Timestamp": "2023-01-19T20:59:59.838365004Z",
+        "Exchange": "V",
+        "Price": 93.09,
+        "Size": 400,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 9339,
+        "Tape": "C"
+    },
+    "GM": {
+        "Symbol": "GM",
+        "Timestamp": "2023-01-19T20:59:59.979670016Z",
+        "Exchange": "V",
+        "Price": 35.73,
+        "Size": 200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635194433855,
+        "Tape": "A"
+    },
+    "V": {
+        "Symbol": "V",
+        "Timestamp": "2023-01-19T20:59:54.413015296Z",
+        "Exchange": "V",
+        "Price": 220.42,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631807993187,
+        "Tape": "A"
+    },
+    "COST": {
+        "Symbol": "COST",
+        "Timestamp": "2023-01-19T20:59:59.979230002Z",
+        "Exchange": "V",
+        "Price": 469.63,
+        "Size": 200,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 3231,
+        "Tape": "C"
+    },
+    "SHOP": {
+        "Symbol": "SHOP",
+        "Timestamp": "2023-01-19T20:59:56.06281984Z",
+        "Exchange": "V",
+        "Price": 38.06,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631922996302,
+        "Tape": "A"
+    },
+    "CPRI": {
+        "Symbol": "CPRI",
+        "Timestamp": "2023-01-19T20:59:49.809803264Z",
+        "Exchange": "V",
+        "Price": 61.51,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631451984712,
+        "Tape": "A"
+    },
+    "HD": {
+        "Symbol": "HD",
+        "Timestamp": "2023-01-19T20:59:55.9945344Z",
+        "Exchange": "V",
+        "Price": 310.94,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631908917826,
+        "Tape": "A"
+    },
+    "KR": {
+        "Symbol": "KR",
+        "Timestamp": "2023-01-19T20:59:50.711333888Z",
+        "Exchange": "V",
+        "Price": 44,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631587001651,
+        "Tape": "A"
+    },
+    "WFC": {
+        "Symbol": "WFC",
+        "Timestamp": "2023-01-19T20:59:58.430788608Z",
+        "Exchange": "V",
+        "Price": 42.945,
+        "Size": 300,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635096508991,
+        "Tape": "A"
+    },
+    "TMUS": {
+        "Symbol": "TMUS",
+        "Timestamp": "2023-01-19T20:59:59.98275268Z",
+        "Exchange": "V",
+        "Price": 145.17,
+        "Size": 100,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 3825,
+        "Tape": "C"
+    },
+    "JPM": {
+        "Symbol": "JPM",
+        "Timestamp": "2023-01-19T20:59:58.039537664Z",
+        "Exchange": "V",
+        "Price": 134.78,
+        "Size": 200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635078549850,
+        "Tape": "A"
+    },
+    "HBAN": {
+        "Symbol": "HBAN",
+        "Timestamp": "2023-01-19T20:59:56.821544314Z",
+        "Exchange": "V",
+        "Price": 14.02,
+        "Size": 180,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 5247,
+        "Tape": "C"
+    },
+    "F": {
+        "Symbol": "F",
+        "Timestamp": "2023-01-19T20:59:57.4567808Z",
+        "Exchange": "V",
+        "Price": 12.175,
+        "Size": 129,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635042577474,
+        "Tape": "A"
+    },
+    "DIS": {
+        "Symbol": "DIS",
+        "Timestamp": "2023-01-19T20:59:59.793747968Z",
+        "Exchange": "V",
+        "Price": 99.09,
+        "Size": 396,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635177448511,
+        "Tape": "A"
+    },
+    "CSCO": {
+        "Symbol": "CSCO",
+        "Timestamp": "2023-01-19T20:59:58.067375648Z",
+        "Exchange": "V",
+        "Price": 46.445,
+        "Size": 1300,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 6329,
+        "Tape": "C"
+    },
+    "AMD": {
+        "Symbol": "AMD",
+        "Timestamp": "2023-01-19T20:59:59.92749047Z",
+        "Exchange": "V",
+        "Price": 67.71,
+        "Size": 100,
+        "Conditions": [
+            "@"
+        ],
+        "ID": 9213,
+        "Tape": "C"
+    },
+    "SHEL": {
+        "Symbol": "SHEL",
+        "Timestamp": "2023-01-19T20:59:51.565500928Z",
+        "Exchange": "V",
+        "Price": 59.12,
+        "Size": 200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631653321785,
+        "Tape": "A"
+    },
+    "YUM": {
+        "Symbol": "YUM",
+        "Timestamp": "2023-01-19T20:59:56.827603968Z",
+        "Exchange": "V",
+        "Price": 126.05,
+        "Size": 100,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57634994469942,
+        "Tape": "A"
+    },
+    "CVS": {
+        "Symbol": "CVS",
+        "Timestamp": "2023-01-19T20:59:58.95922304Z",
+        "Exchange": "V",
+        "Price": 87.48,
+        "Size": 118,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635126660159,
+        "Tape": "A"
+    },
+    "LOW": {
+        "Symbol": "LOW",
+        "Timestamp": "2023-01-19T20:59:51.036452864Z",
+        "Exchange": "V",
+        "Price": 202.2,
+        "Size": 200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57631605811305,
+        "Tape": "A"
+    },
+    "T": {
+        "Symbol": "T",
+        "Timestamp": "2023-01-19T20:59:58.509746432Z",
+        "Exchange": "V",
+        "Price": 18.94,
+        "Size": 4200,
+        "Conditions": [
+            " "
+        ],
+        "ID": 57635109615965,
+        "Tape": "A"
+    }
+}

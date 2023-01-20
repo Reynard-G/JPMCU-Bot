@@ -31,6 +31,8 @@ DB_PORT=
 DB_USER=
 DB_PASS=
 DB_NAME=
+ALPACA_KEY_ID=
+ALPACA_SECRET_KEY=
 ```
 
 ## Run Locally

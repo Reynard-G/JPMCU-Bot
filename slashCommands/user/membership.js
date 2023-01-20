@@ -25,8 +25,7 @@ module.exports = {
             'Chairman': '962086358376149052',
             'Technology Officer': '1008425940898041958',
             'Credit Officer': '1055675065636761660',
-            'Teller': '962086358363537429',
-            'test': '1028304082861047908'
+            'Teller': '962086358363537429'
         };
         const userRoles = interaction.member.roles.cache.map(role => `${role.id}`);
         const allowed = Object.values(allowedRoles).some(role => userRoles.includes(role));
@@ -61,7 +60,8 @@ module.exports = {
         }
 
         // Check if user already has the membership role
-        const roleID = '1025591402102526072';
+        require('dotenv').config();
+        const roleID = process.env.MEMBER_ROLE;
         const memberRole = interaction.guild.roles.cache.get(roleID);
         if (interaction.guild.members.cache.get(userID).roles.cache.has(memberRole.id)) {
             return await interaction.editReply({
