@@ -39,7 +39,7 @@ module.exports = {
         return interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setAuthor({ name: `Market Information`, iconURL: `https://cdn.discordapp.com/attachments/1046916146378576052/1065881616251109417/ezgif.com-gif-maker.gif` })
+                    .setAuthor({ name: `Market Information`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/marketinfo.gif` })
                     .addFields(
                         { name: 'Ticker', value: ticker, inline: true },
                         { name: 'Price', value: `$${price}`, inline: true },
