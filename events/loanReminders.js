@@ -27,7 +27,7 @@ function convertDaysToPeriod(days) {
 cron.schedule('59 23 * * *', async () => {
     try {
         const loans = [];
-        const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans;`);
+        const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans WHERE status = 1;`);
         const loanTerms = await client.query(`SELECT id, term, term_period FROM loan_products;`);
         const usernames = await client.query(`SELECT id, name FROM users;`);
         const loansCount = (await client.query(`SELECT COUNT(*) FROM loans;`))[0]['COUNT(*)'];
