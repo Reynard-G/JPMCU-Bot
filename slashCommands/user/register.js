@@ -14,7 +14,6 @@ module.exports = {
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Failed')
@@ -50,12 +49,14 @@ module.exports = {
                         .setStyle('Danger')
                 );
 
-            await interaction.editReply({ embeds: [contractEmbed], components: [buttonRow], ephemeral: true });
+            await interaction.editReply({
+                embeds: [contractEmbed],
+                components: [buttonRow]
+            });
             return module.exports = { contractEmbed, buttonRow };
         } catch (err) {
             console.log(err);
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Registration Failed')

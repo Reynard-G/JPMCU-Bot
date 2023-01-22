@@ -6,6 +6,7 @@ const cooldown = new Collection();
 
 client.on('interactionCreate', async interaction => {
 	const slashCommand = client.slashCommands.get(interaction.commandName);
+	
 	if (interaction.type == 4) {
 		if (slashCommand.autocomplete) {
 			const choices = [];
@@ -13,8 +14,9 @@ client.on('interactionCreate', async interaction => {
 		}
 	}
 	if (!interaction.type == 2) return;
-
 	if (!slashCommand) return client.slashCommands.delete(interaction.commandName);
+
+	const subCommandOption = interaction.options.getSubcommand(false) || interaction.options.getSubcommandGroup(false);
 	try {
 		if (slashCommand.cooldown) {
 			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) {
@@ -43,7 +45,16 @@ client.on('interactionCreate', async interaction => {
 
 			}
 
-			await slashCommand.run(client, interaction);
+			// Subcommand handler
+			if (subCommandOption) {
+				const subCommand = client.subCommands.get(subCommandOption);
+				if (subCommand) {
+					subCommand.run(client, interaction);
+				}
+			} else {
+				await slashCommand.run(client, interaction);
+			}
+
 			cooldown.set(`slash-${slashCommand.name}${interaction.user.id}`, Date.now() + slashCommand.cooldown);
 			setTimeout(() => {
 				cooldown.delete(`slash-${slashCommand.name}${interaction.user.id}`);
@@ -64,7 +75,16 @@ client.on('interactionCreate', async interaction => {
 				}
 
 			}
-			await slashCommand.run(client, interaction);
+
+			// Subcommand handler
+			if (subCommandOption) {
+				const subCommand = client.subCommands.get(subCommandOption);
+				if (subCommand) {
+					subCommand.run(client, interaction);
+				} else {
+					await slashCommand.run(client, interaction);
+				}
+			}
 		}
 	} catch (error) {
 		console.log(error);

@@ -44,7 +44,7 @@ cron.schedule('59 23 * * *', async () => {
                 loan_id: loanID,
                 name: usernames.filter(user => user.id === userID)[0].name,
                 id: userID,
-                first_payment_date: loanDetails.filter(loan => loan.id === loanID)[0].first_payment_date, // ADD A WAY TO DIFFERENTIATE BETWEEN MULTIPLE LOANS
+                first_payment_date: loanDetails.filter(loan => loan.id === loanID)[0].first_payment_date,
                 loan_product_id: loanDetails.filter(loan => loan.id === loanID)[0].loan_product_id,
                 term: loanTerms.filter(term => term.id === loanDetails[i].loan_product_id)[0].term,
                 term_period: loanTerms.filter(term => term.id === loanDetails[i].loan_product_id)[0].term_period,

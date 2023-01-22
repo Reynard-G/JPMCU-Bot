@@ -3,25 +3,15 @@ const fs = require('fs');
 const moment = require('moment');
 
 module.exports = {
-    name: 'marketinfo',
+    name: 'info',
     description: "Check the price of a stock/crypto.",
-    type: ApplicationCommandType.ChatInput,
-    cooldown: 3000,
-    options: [
-        {
-            name: 'ticker',
-            description: 'The ticker of the stock you want to check the price of.',
-            type: ApplicationCommandOptionType.String,
-            required: true
-        }
-    ],
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
 
         // Check if the ticker is valid
         const ticker = interaction.options.getString('ticker').toUpperCase();
-        if (!client.stockTickers.includes(ticker) && !client.cryptoTickers.includes(ticker)) {
+        if (!(ticker in client.cryptoTickers) && !(ticker in client.stockTickers)) {
             return interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
@@ -34,8 +24,9 @@ module.exports = {
             });
         }
 
-        const price = JSON.parse(fs.readFileSync(`data/${client.stockTickers.includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Price;
-        const updated = JSON.parse(fs.readFileSync(`data/${client.stockTickers.includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Timestamp;
+        const price = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Price;
+        const updated = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Timestamp;
+
         return interaction.editReply({
             embeds: [
                 new EmbedBuilder()

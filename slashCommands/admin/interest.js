@@ -26,7 +26,6 @@ module.exports = {
             // Check if percentage is a valid number
             if (isNaN(percentage) && !percentage.includes('%')) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Applying Interest Failed')
@@ -77,7 +76,6 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Applying Interest Failed')

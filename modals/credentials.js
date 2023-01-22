@@ -13,7 +13,6 @@ module.exports = {
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1'))) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Failed')
@@ -29,7 +28,6 @@ module.exports = {
             const password = interaction.fields.getTextInputValue('passwordInput');
             if (isNaN(password)) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Failed')
@@ -66,7 +64,6 @@ module.exports = {
                 });
 
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Successful')
@@ -79,7 +76,6 @@ module.exports = {
             } catch (error) {
                 console.log(error);
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Registration Successful')
@@ -99,7 +95,6 @@ module.exports = {
         } catch (error) {
             console.log(error);
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Registration Failed')

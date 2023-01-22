@@ -8,7 +8,7 @@ module.exports = {
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
-        
+
         try {
             // Convert date to unix time
             function convertToUnixTime(date) {
@@ -19,7 +19,6 @@ module.exports = {
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = '${interaction.user.id}';`));
             if (!((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty('1')))) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
                             .setTitle('Transaction History Check Failed')
@@ -69,15 +68,15 @@ module.exports = {
                         .setFooter({ text: `JPMCU | Page ${page + 2}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
                     page++;
                 }
-                
+
                 embed.addFields(
                     {
                         name: `${types[transactions[i].dr_cr] ?? '💸'} Transaction #${transactions[i].id}`,
                         value: `Amount: $${transactions[i].amount}` +
-                        `\nType: ${transactions[i].dr_cr}` +
-                        `\nStatus: ${statuses[transactions[i].status] ?? 'Unknown/Invalid'}` + 
-                        `\nDate: <t:${convertToUnixTime(transactions[i].updated_at)}:F>` +
-                        `\nDescription: ${transactions[i].note}`
+                            `\nType: ${transactions[i].dr_cr}` +
+                            `\nStatus: ${statuses[transactions[i].status] ?? 'Unknown/Invalid'}` +
+                            `\nDate: <t:${convertToUnixTime(transactions[i].updated_at)}:F>` +
+                            `\nDescription: ${transactions[i].note}`
                     }
                 );
             }
@@ -86,31 +85,31 @@ module.exports = {
             // If the user has less than 10 transactions, just send the embed
             if (pages.length === 1) {
                 return await interaction.editReply({
-                    ephemeral: true,
                     embeds: [pages[0]]
                 });
             }
 
+            // Create the buttons
+            const buttons = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('previous')
+                        .setLabel('Previous')
+                        .setEmoji('⬅️')
+                        .setStyle('Primary')
+                        .setDisabled(true),
+                    new ButtonBuilder()
+                        .setCustomId('next')
+                        .setLabel('Next')
+                        .setEmoji('➡️')
+                        .setStyle('Primary')
+                        .setDisabled(pages.length === 1)
+                );
+
             // Send the first page
             const msg = await interaction.editReply({
-                ephemeral: true,
                 embeds: [pages[0]],
-                components: [
-                    new ActionRowBuilder()
-                        .addComponents(
-                            new ButtonBuilder()
-                                .setCustomId('previous')
-                                .setLabel('Previous')
-                                .setEmoji('⬅️')
-                                .setStyle('Primary')
-                                .setDisabled(true),
-                            new ButtonBuilder()
-                                .setCustomId('next')
-                                .setLabel('Next')
-                                .setEmoji('➡️')
-                                .setStyle('Primary')
-                        )
-                ]
+                components: [buttons]
             });
 
             // Create a collector for the buttons
@@ -120,81 +119,37 @@ module.exports = {
             // When a button is pressed, edit the message with the new page
             page = 0;
             collector.on('collect', async (button) => {
-                if (button.customId === 'next') {
-                    page++;
-                    await button.update({
-                        ephemeral: true,
-                        embeds: [pages[page]],
-                        components: [
-                            new ActionRowBuilder()
-                                .addComponents(
-                                    new ButtonBuilder()
-                                        .setCustomId('previous')
-                                        .setLabel('Previous')
-                                        .setEmoji('⬅️')
-                                        .setStyle('Primary'),
-                                    new ButtonBuilder()
-                                        .setCustomId('next')
-                                        .setLabel('Next')
-                                        .setEmoji('➡️')
-                                        .setStyle('Primary')
-                                        .setDisabled(page === (pages.length - 1))
-                                )
-                        ]
-                    });
-                } else if (button.customId === 'previous') {
+                if (button.customId === 'previous') {
                     page--;
+                    buttons.components[0].setDisabled(page === 0);
+                    buttons.components[1].setDisabled(false);
                     await button.update({
-                        ephemeral: true,
                         embeds: [pages[page]],
-                        components: [
-                            new ActionRowBuilder()
-                                .addComponents(
-                                    new ButtonBuilder()
-                                        .setCustomId('previous')
-                                        .setLabel('Previous')
-                                        .setEmoji('⬅️')
-                                        .setStyle('Primary')
-                                        .setDisabled(page === 0),
-                                    new ButtonBuilder()
-                                        .setCustomId('next')
-                                        .setLabel('Next')
-                                        .setEmoji('➡️')
-                                        .setStyle('Primary')
-                                )
-                        ]
+                        components: [buttons]
+                    });
+                } else if (button.customId === 'next') {
+                    page++;
+                    buttons.components[0].setDisabled(false);
+                    buttons.components[1].setDisabled(page === (pages.length - 1));
+                    await button.update({
+                        embeds: [pages[page]],
+                        components: [buttons]
                     });
                 }
             });
 
             // When the collector times out, disable the buttons
             collector.on('end', async () => {
-                await interaction.editReply({
-                    ephemeral: true,
+                buttons.components[0].setDisabled(true);
+                buttons.components[1].setDisabled(true);
+                return await interaction.editReply({
                     embeds: [pages[page]],
-                    components: [
-                        new ActionRowBuilder()
-                            .addComponents(
-                                new ButtonBuilder()
-                                    .setCustomId('previous')
-                                    .setLabel('Previous')
-                                    .setEmoji('⬅️')
-                                    .setStyle('Primary')
-                                    .setDisabled(true),
-                                new ButtonBuilder()
-                                    .setCustomId('next')
-                                    .setLabel('Next')
-                                    .setEmoji('➡️')
-                                    .setStyle('Primary')
-                                    .setDisabled(true)
-                            )
-                    ]
+                    components: [buttons]
                 });
             });
         } catch (err) {
             console.error(err);
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Transaction History Check Failed')

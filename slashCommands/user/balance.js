@@ -31,7 +31,6 @@ module.exports = {
             const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'cr';`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'dr';`))[0]['SUM(amount)'];
 
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Balance Check')
@@ -44,7 +43,6 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return await interaction.editReply({
-                ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setTitle('Balance Check Failed')

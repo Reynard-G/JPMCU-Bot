@@ -17,8 +17,17 @@ module.exports = (client) => {
 	const slashCommands = [];
 
 	fs.readdirSync('./slashCommands/').forEach(async dir => {
-		const files = fs.readdirSync(`./slashCommands/${dir}/`).filter(file => file.endsWith('.js'));
+		if (dir === 'subCommands') {
+			fs.readdirSync('./slashCommands/subCommands').filter(file => !file.endsWith('.js')).forEach(async subdir => {
+				const subFiles = fs.readdirSync(`./slashCommands/subCommands/${subdir}/`).filter(file => file.endsWith('.js'));
+				for (const file of subFiles) {
+					const subCommand = require(`../slashCommands/subCommands/${subdir}/${file}`);
+					client.subCommands.set(subCommand.name, subCommand);
+				}
+			});
+		}
 
+		const files = fs.readdirSync(`./slashCommands/${dir}/`).filter(file => file.endsWith('.js'));
 		for (const file of files) {
 			const slashCommand = require(`../slashCommands/${dir}/${file}`);
 			slashCommands.push({
