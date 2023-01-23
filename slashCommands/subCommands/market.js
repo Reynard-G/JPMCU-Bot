@@ -28,6 +28,11 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+        {
+            name: 'chartinfo',
+            description: 'How to understand a candlestick chart as displayed in /market info.',
+            type: ApplicationCommandOptionType.Subcommand
         }
     ],
 };
