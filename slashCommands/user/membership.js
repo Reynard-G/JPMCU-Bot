@@ -18,7 +18,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
         const user = interaction.options.getUser('waiver');
         let userID = user !== null ? user.id : interaction.user.id;
-        
+
         // Check if the user's roles is any of the allowed roles
         const allowedRoles = {
             'Owner': '962086358376149053',
@@ -59,9 +59,8 @@ module.exports = {
 
         // Check if user already has the membership role
         require('dotenv').config();
-        const roleID = process.env.MEMBER_ROLE;
-        const memberRole = interaction.guild.roles.cache.get(roleID);
-        if (interaction.guild.members.cache.get(userID).roles.cache.has(memberRole.id)) {
+        const roleID = process.env.MEMBER_ROLE_ID;
+        if (interaction.guild.members.cache.get(userID).roles.cache.has(roleID)) {
             return await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
@@ -80,7 +79,7 @@ module.exports = {
                 // Check if user has enough money
                 const bankID = (await client.query(`SELECT id FROM users WHERE name = '${userID}';`))[0].id;
                 const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${bankID}' AND dr_cr = 'cr';`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${bankID}' AND dr_cr = 'dr';`))[0]['SUM(amount)'];
-                
+
                 if (balance < 850) {
                     return await interaction.editReply({
                         embeds: [
@@ -151,4 +150,4 @@ module.exports = {
             });
         }
     }
-};;
+};

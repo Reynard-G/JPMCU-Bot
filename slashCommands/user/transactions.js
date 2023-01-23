@@ -51,7 +51,7 @@ module.exports = {
             const pages = [];
             let page = 0;
             let embed = new EmbedBuilder()
-                .setTitle('Transaction History')
+                .setAuthor({ name: `Transaction History`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/transactions.gif` })
                 .setDescription(`For privacy reasons, you can only switch between pages of your transaction history for **5 minutes**.`)
                 .setColor('#2F3136')
                 .setTimestamp()
@@ -61,7 +61,7 @@ module.exports = {
                 if (i % 10 === 0 && i !== 0) {
                     pages.push(embed);
                     embed = new EmbedBuilder()
-                        .setTitle('Transaction History')
+                        .setAuthor({ name: `Transaction History`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/transactions.gif` })
                         .setDescription(`For privacy reasons, you can only switch between pages of your transaction history for **5 minutes**.`)
                         .setColor('#2F3136')
                         .setTimestamp()

@@ -33,7 +33,7 @@ module.exports = {
             return await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle('Balance Check')
+                        .setAuthor({ name: `Balance Check`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/balance.gif` })
                         .setDescription(`Your current balance is **$${balance}**.`)
                         .setColor('#2F3136')
                         .setTimestamp()

@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const fs = require('fs');
 const moment = require('moment');
 
@@ -26,6 +26,7 @@ module.exports = {
 
         const price = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Price;
         const updated = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Timestamp;
+        const imageChart = new AttachmentBuilder(`data/charts/${ticker}BarChart.png`)
 
         return interaction.editReply({
             embeds: [
@@ -36,9 +37,13 @@ module.exports = {
                         { name: 'Price', value: `$${price}`, inline: true },
                         { name: 'Last Updated', value: `<t:${moment(updated).unix()}:f>`, inline: true }
                     )
+                    .setImage(`attachment://${ticker}BarChart.png`)
                     .setColor('2F3136')
                     .setTimestamp()
                     .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
+            ],
+            files: [
+                imageChart
             ]
         });
     }
