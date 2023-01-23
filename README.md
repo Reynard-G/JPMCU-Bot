@@ -21,6 +21,7 @@ The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
   git clone https://github.com/Reynard-G/JPMCU-Bot
   cd JPMCU-Bot
   mkdir data/
+  cd data/
   touch cryptoBarData.json cryptoMarket.json stockBarData.json stockMarket.json
   mkdir charts
 ```
