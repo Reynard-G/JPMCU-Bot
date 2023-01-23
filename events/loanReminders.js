@@ -1,5 +1,5 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
-const cron = require('node-cron');
+const Cron = require('croner');
 const client = require('..');
 
 function addDays(date, days) {
@@ -24,7 +24,7 @@ function convertDaysToPeriod(days) {
     return '0 days';
 }
 
-cron.schedule('59 23 * * *', async () => {
+Cron('59 23 * * *', async () => {
     try {
         const loans = [];
         const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans WHERE status = 1;`);
@@ -80,10 +80,10 @@ cron.schedule('59 23 * * *', async () => {
                             {
                                 name: 'Loan Details',
                                 value: `**Loan Amount:** $${loans[i].loan_amount}` +
-                                `\n**Loan Payable:** $${loans[i].loan_payable}` +
-                                `\n**Loan Paid:** $${loans[i].loan_paid}` +
-                                `\n**Loan Term:** ${loans[i].term}` +
-                                `\n**Loan Term Period:** ${loans[i].term_period}`,
+                                    `\n**Loan Payable:** $${loans[i].loan_payable}` +
+                                    `\n**Loan Paid:** $${loans[i].loan_paid}` +
+                                    `\n**Loan Term:** ${loans[i].term}` +
+                                    `\n**Loan Term Period:** ${loans[i].term_period}`,
                                 inline: true
                             }
                         )

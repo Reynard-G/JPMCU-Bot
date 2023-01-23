@@ -1,6 +1,6 @@
 // Create a cronjob that runs every minute to update the market data with alpaca
 const fs = require('fs/promises');
-const cron = require('node-cron');
+const Cron = require('croner');
 const moment = require('moment');
 const QuickChart = require('quickchart-js');
 const client = require('..');
@@ -66,7 +66,7 @@ async function generateCharts(symbols, bars) {
 }
 
 // Stock price data, run every minute
-cron.schedule('* * * * *', async () => {
+Cron('* * * * *', async () => {
     try {
         const marketData = await client.alpaca.getLatestTrades(Object.keys(client.stockTickers));
         const cryptoMarketData = await client.alpaca.getLatestCryptoTrades(
@@ -81,12 +81,11 @@ cron.schedule('* * * * *', async () => {
         console.log(err);
     }
 }, {
-    scheduled: true,
     timezone: 'America/Chicago'
 });
 
 // Stock price bar data, run every week at 3pm CST
-cron.schedule('0 15 * * 0', async () => {
+Cron('0 15 * * 0', async () => {
     try {
         // Get the bar data for the last year
         const barStockData = await client.alpaca.getMultiBarsAsyncV2(
@@ -136,6 +135,5 @@ cron.schedule('0 15 * * 0', async () => {
         console.log(err);
     }
 }, {
-    scheduled: true,
     timezone: 'America/Chicago'
 });
