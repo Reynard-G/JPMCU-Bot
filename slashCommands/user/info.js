@@ -31,6 +31,7 @@ module.exports = {
 
         // Send the embed and action row
         await interaction.reply({
+            ephemeral: true,
             embeds: [embed],
             components: [actionRow]
         });
