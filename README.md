@@ -10,6 +10,9 @@ The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
 - `/balance` - Check your JPMCU account balance
 - `/transactions` - Check your JPMCU account transaction history
 - `/info` - Information about JPMCU
+- `/market hours` - Displays the real-life market hours
+- `/market tickers` - Display available tickers
+- `/market info` - Display current share price with 1 year chart
 - Loan Reminders a day before a payment is due
 - Automating interest payments for Administrators
 
@@ -17,6 +20,9 @@ The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
 ```bash
   git clone https://github.com/Reynard-G/JPMCU-Bot
   cd JPMCU-Bot
+  mkdir data/
+  touch cryptoBarData.json cryptoMarket.json stockBarData.json stockMarket.json
+  mkdir charts
 ```
     
 ## Environment Variables
