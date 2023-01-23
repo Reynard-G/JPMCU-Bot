@@ -24,6 +24,7 @@ module.exports = {
             });
         }
 
+        const name = Object.keys(client.cryptoTickers).includes(ticker) ? client.cryptoTickers[ticker] : client.stockTickers[ticker];
         const price = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Price;
         const updated = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? 'stockMarket' : 'cryptoMarket'}.json`, 'utf8'))[ticker].Timestamp;
         const imageChart = new AttachmentBuilder(`data/charts/${ticker}BarChart.png`)
@@ -33,7 +34,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setAuthor({ name: `Market Information`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/marketinfo.gif` })
                     .addFields(
-                        { name: 'Ticker', value: ticker, inline: true },
+                        { name: 'Ticker', value: `${ticker} (${name})`, inline: true },
                         { name: 'Price', value: `$${price}`, inline: true },
                         { name: 'Last Updated', value: `<t:${moment(updated).unix()}:f>`, inline: true }
                     )
