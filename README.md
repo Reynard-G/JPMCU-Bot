@@ -30,7 +30,7 @@ To run this project, you will need to add the following environment variables to
 ```txt
 TOKEN=
 CLIENT_ID=
-GUILD_ID= // Fill if you want to register
+GUILD_ID= // Fill if you want to register slashcommands in a specific guild
 MEMBER_ROLE_ID=
 DB_HOST=
 DB_PORT=
