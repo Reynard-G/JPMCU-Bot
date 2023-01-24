@@ -1,7 +1,7 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'tickers',
+    name: "tickers",
     description: "A list of available tickers for the market commands.",
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
@@ -17,7 +17,7 @@ module.exports = {
         let embed = new EmbedBuilder()
             .setAuthor({ name: `Available Tickers`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/tickers.gif` })
             .setDescription(`You are able to switch pages using the buttons below for **5 minutes** after executing this command.`)
-            .setColor('#2F3136')
+            .setColor("#2F3136")
             .setTimestamp()
             .setFooter({ text: `JPMCU | Page ${page}/${Math.ceil(tickers.length / 10)}`, iconURL: interaction.guild.iconURL() });
 
@@ -28,7 +28,7 @@ module.exports = {
                 embed = new EmbedBuilder()
                     .setAuthor({ name: `Available Tickers`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/tickers.gif` })
                     .setDescription(`You are able to switch pages of the tickers list for **5 minutes** since this message was sent.`)
-                    .setColor('#2F3136')
+                    .setColor("#2F3136")
                     .setTimestamp()
                     .setFooter({ text: `JPMCU | Page ${page}/${Math.ceil(tickers.length / 10)}`, iconURL: interaction.guild.iconURL() });
             }
@@ -43,16 +43,16 @@ module.exports = {
         const buttons = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('previous')
-                    .setLabel('Previous')
-                    .setEmoji('⬅️')
-                    .setStyle('Primary')
+                    .setCustomId("previous")
+                    .setLabel("Previous")
+                    .setEmoji("⬅️")
+                    .setStyle("Primary")
                     .setDisabled(true),
                 new ButtonBuilder()
-                    .setCustomId('next')
-                    .setLabel('Next')
-                    .setEmoji('➡️')
-                    .setStyle('Primary')
+                    .setCustomId("next")
+                    .setLabel("Next")
+                    .setEmoji("➡️")
+                    .setStyle("Primary")
                     .setDisabled(embeds.length === 1)
             );
 
@@ -68,8 +68,8 @@ module.exports = {
 
         // Handle the buttons
         page = 0;
-        collector.on('collect', async (button) => {
-            if (button.customId === 'previous') {
+        collector.on("collect", async (button) => {
+            if (button.customId === "previous") {
                 page--;
                 buttons.components[0].setDisabled(page === 0);
                 buttons.components[1].setDisabled(false);
@@ -89,7 +89,7 @@ module.exports = {
             }
         });
 
-        collector.on('end', async () => {
+        collector.on("end", async () => {
             buttons.components[0].setDisabled(true);
             buttons.components[1].setDisabled(true);
             return await interaction.editReply({

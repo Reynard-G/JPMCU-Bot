@@ -1,22 +1,22 @@
-const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'info',
+    name: "info",
     description: "Information about JPMCU.",
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Create an embed with information about JPMCU
-        require('dotenv').config()
+        require("dotenv").config()
         const embed = new EmbedBuilder()
-            .setTitle('<:info:1062551047073173596> JPMCU Information <:info:1062551047073173596>')
+            .setTitle("<:info:1062551047073173596> JPMCU Information <:info:1062551047073173596>")
             .setDescription(
                 `Made by **<@399708215534944267>**` +
                 `\n**Website**: https://dcjpm.com/` +
                 `\n**Discord**: https://discord.gg/dCWDHkFczw` +
                 `\n\n __**Note**__: <@${process.env.CLIENT_ID}> or Staff will never ask for your account credentials, official messages will come from **${client.user.tag}** or from the official JPMCU Discord Server.`
                 )
-            .setColor('#2F3136')
+            .setColor("#2F3136")
             .setTimestamp()
             .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() });
 
@@ -24,9 +24,9 @@ module.exports = {
         const actionRow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setLabel('Go to the JPMCU Website')
-                    .setStyle('Link')
-                    .setURL('https://dcjpm.com/')
+                    .setLabel("Go to the JPMCU Website")
+                    .setStyle("Link")
+                    .setURL("https://dcjpm.com/")
             );
 
         // Send the embed and action row

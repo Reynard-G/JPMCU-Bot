@@ -1,18 +1,18 @@
-const chalk = require('chalk');
-var AsciiTable = require('ascii-table');
-var table = new AsciiTable();
-table.setHeading('MySQL', 'Stats').setBorder('|', '=', "0", "0");
-const mariadb = require('mariadb');
+const chalk = require("chalk");
+const AsciiTable = require("ascii-table");
+const table = new AsciiTable();
+table.setHeading("MySQL", "Stats").setBorder("|", "=", "0", "0");
+const mariadb = require("mariadb");
 
 module.exports = (client) => {
-    require('dotenv').config();
+    require("dotenv").config();
     const pool = mariadb.createPool({
         host: process.env.DB_HOST,
         database: process.env.DB_NAME,
         port: process.env.DB_PORT,
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
-        timezone: 'America/Chicago',
+        timezone: "America/Chicago",
         connectionLimit: 5
     });
 
@@ -24,6 +24,6 @@ module.exports = (client) => {
         return delete result.meta ? result : result[0];
     };
 
-    table.addRow("MySQL Connection", '✅');
+    table.addRow("MySQL Connection", "✅");
     console.log(chalk.blue(table.toString()));
 };

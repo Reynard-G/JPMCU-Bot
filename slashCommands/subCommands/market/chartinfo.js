@@ -1,7 +1,7 @@
-const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 
 module.exports = {
-    name: 'chartinfo',
+    name: "chartinfo",
     description: "How to understand a candlestick chart as displayed in /market info.",
     run: async (client, interaction) => {
         const image = new AttachmentBuilder(`assets/chartinfo.png`);
@@ -15,7 +15,7 @@ module.exports = {
                         `\n\nIn our case, each "candle" represents 1 week of trading thus a 1 year chart will show 52 "candles".`
                     )
                     .setImage(`attachment://chartinfo.png`)
-                    .setColor('2F3136')
+                    .setColor("2F3136")
                     .setTimestamp()
                     .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
             ],

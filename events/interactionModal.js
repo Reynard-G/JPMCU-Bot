@@ -1,7 +1,7 @@
-const { EmbedBuilder, InteractionType } = require('discord.js');
-const client = require('..');
+const { EmbedBuilder, InteractionType } = require("discord.js");
+const client = require("..");
 
-client.on('interactionCreate', async interaction => {
+client.on("interactionCreate", async interaction => {
     try {
         //=====================================| Command Handling |=====================================\\
         if (interaction.isModalSubmit()) {
@@ -22,7 +22,7 @@ client.on('interactionCreate', async interaction => {
                     ephemeral: true,
                     embeds: [
                         new EmbedBuilder()
-                            .setColor('Red')
+                            .setColor("Red")
                             .setTitle(`Failed To Execute Modals!`)
                             .setDescription(`I can\'t execute the modal for you.`)
                             .setTimestamp()

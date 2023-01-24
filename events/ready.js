@@ -1,6 +1,6 @@
-const { ActivityType } = require('discord.js');
-const client = require('..');
-const chalk = require('chalk');
+const { ActivityType } = require("discord.js");
+const client = require("..");
+const chalk = require("chalk");
 
 client.on("ready", () => {
 	const activities = [
@@ -10,7 +10,7 @@ client.on("ready", () => {
 		{ name: `the Banking Market`, type: ActivityType.Competing }
 	];
 	const status = [
-		'dnd'
+		"dnd"
 	];
 	let i = 0;
 	setInterval(() => {

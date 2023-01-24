@@ -1,29 +1,29 @@
-const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 
 module.exports = {
-    id: 'agreeContract_button',
+    id: "agreeContract_button",
     permissions: [],
     run: async (client, interaction) => {
-        const { contractEmbed, buttonRow } = require('../slashCommands/user/register.js');
+        const { contractEmbed, buttonRow } = require("../slashCommands/user/register.js");
 
         const credentialsModal = new ModalBuilder()
-            .setTitle('Register')
-            .setCustomId('agreeContract_modal');
+            .setTitle("Register")
+            .setCustomId("agreeContract_modal");
 
         const ignInput = new TextInputBuilder()
-            .setCustomId('ignInput')
-            .setPlaceholder('Enter your In-Game Name here')
+            .setCustomId("ignInput")
+            .setPlaceholder("Enter your In-Game Name here")
             .setStyle(TextInputStyle.Short)
-            .setLabel('In-Game Name')
+            .setLabel("In-Game Name")
             .setMinLength(3)
             .setMaxLength(16)
             .setRequired(true);
 
         const passwordInput = new TextInputBuilder()
-            .setCustomId('passwordInput')
-            .setPlaceholder('Enter a 4-6 digit PIN here')
+            .setCustomId("passwordInput")
+            .setPlaceholder("Enter a 4-6 digit PIN here")
             .setStyle(TextInputStyle.Short)
-            .setLabel('Account Password')
+            .setLabel("Account Password")
             .setMinLength(4)
             .setMaxLength(6)
             .setRequired(true);

@@ -1,25 +1,29 @@
-const { EmbedBuilder } = require('discord.js');
-const moment = require('moment');
+const { EmbedBuilder } = require("discord.js");
+const moment = require("moment");
 
 module.exports = {
-    name: 'hours',
+    name: "hours",
     description: "Check if the market is open or closed.",
     run: async (client, interaction) => {
-        const clock = await client.alpaca.getClock()
+        const clock = await client.alpaca.getClock();
+        const currentDate = new Date();
+        const status = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? "open" : "closed";
+        const nextStatus = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? "closed" : "open";
+        const nextStatusTime = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? moment(clock.next_close).unix() : moment(clock.next_open).unix();
 
         interaction.reply({
             ephemeral: true,
             embeds: [
                 new EmbedBuilder()
-                    .setAuthor({ name: `Market Hours`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/markethours.gif` })
+                    .setAuthor({ name: `Market Hours`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/markethours.gif`, })
                     .addFields(
-                        { name: 'Market Status', value: `The market is currently ${clock.is_open ? 'open' : 'closed'}.`, inline: true },
-                        { name: 'Next Market Status', value: `The market will be ${clock.next_open ? 'open' : 'closed'} at <t:${moment(clock.next_open ? clock.next_open : clock.next_close).unix()}:f>.`, inline: true }
+                        { name: "Market Status", value: `The market is currently ${status}.`, inline: true, },
+                        { name: "Next Market Status", value: `The market will be ${nextStatus} at <t:${nextStatusTime}:f>.`, inline: true, }
                     )
-                    .setColor('2F3136')
+                    .setColor("2F3136")
                     .setTimestamp()
-                    .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
-            ]
-        })
-    }
+                    .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() }),
+            ],
+        });
+    },
 };

@@ -1,6 +1,6 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require('discord.js');
-const Cron = require('croner');
-const client = require('..');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const Cron = require("croner");
+const client = require("..");
 
 function addDays(date, days) {
     var result = new Date(date);
@@ -9,35 +9,35 @@ function addDays(date, days) {
 }
 
 function convertPeriodToDays(period) {
-    if (period === '+1 day') return 1;
-    if (period === '+1 week') return 7;
-    if (period === '+1 month') return 30;
-    if (period === '+1 year') return 365;
+    if (period === "+1 day") return 1;
+    if (period === "+1 week") return 7;
+    if (period === "+1 month") return 30;
+    if (period === "+1 year") return 365;
     return 0;
 }
 
 function convertDaysToPeriod(days) {
-    if (days === 1) return '1 day';
-    if (days === 7) return '1 week';
-    if (days === 30) return '1 month';
-    if (days === 365) return '1 year';
-    return '0 days';
+    if (days === 1) return "1 day";
+    if (days === 7) return "1 week";
+    if (days === 30) return "1 month";
+    if (days === 365) return "1 year";
+    return "0 days";
 }
 
-Cron('59 23 * * *', async () => {
+Cron("59 23 * * *", async () => {
     try {
         const loans = [];
         const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans WHERE status = 1;`);
         const loanTerms = await client.query(`SELECT id, term, term_period FROM loan_products;`);
         const usernames = await client.query(`SELECT id, name FROM users;`);
-        const loansCount = (await client.query(`SELECT COUNT(*) FROM loans;`))[0]['COUNT(*)'];
+        const loansCount = (await client.query(`SELECT COUNT(*) FROM loans;`))[0]["COUNT(*)"];
 
         // Compile all the loan details into an array
         let userID, loanID, paid, payable;
         for (let i = 0; i < loansCount; i++) {
-            userID = ((await client.query(`SELECT id FROM users WHERE id = '${loanDetails[i].borrower_id}';`))[0]).id;
-            loanID = ((await client.query(`SELECT id FROM loans WHERE id = '${loanDetails[i].id}';`))[0]).id;
-            paid = loanDetails.filter(loan => loan.id === loanID)[0].total_paid ?? '0.00';
+            userID = ((await client.query(`SELECT id FROM users WHERE id = "${loanDetails[i].borrower_id}";`))[0]).id;
+            loanID = ((await client.query(`SELECT id FROM loans WHERE id = "${loanDetails[i].id}";`))[0]).id;
+            paid = loanDetails.filter(loan => loan.id === loanID)[0].total_paid ?? "0.00";
             payable = loanDetails.filter(loan => loan.id === loanID)[0].total_payable;
             if (paid >= payable) { continue; }
             loans.push({
@@ -68,17 +68,17 @@ Cron('59 23 * * *', async () => {
                     amountDue = +(Math.round((loans[i].loan_payable / loans[i].term) + "e+2") + "e-2");
                     const user = await client.users.fetch(loans[i].name);
                     const reminderEmbed = new EmbedBuilder()
-                        .setTitle('Loan Payment Reminder')
+                        .setTitle("Loan Payment Reminder")
                         .setDescription(`This is a reminder that your loan payment is due tomorrow. Please make sure to pay your loan payment on time to avoid any late fees.`)
                         .addFields(
                             {
-                                name: 'Loan Payment',
+                                name: "Loan Payment",
                                 value: `**Loan Amount Due:** $${amountDue}
                                 **Current Loan Term:** ${convertDaysToPeriod(convertPeriodToDays(loanTerms[i].term_period) * j)}`,
                                 inline: true
                             },
                             {
-                                name: 'Loan Details',
+                                name: "Loan Details",
                                 value: `**Loan Amount:** $${loans[i].loan_amount}` +
                                     `\n**Loan Payable:** $${loans[i].loan_payable}` +
                                     `\n**Loan Paid:** $${loans[i].loan_paid}` +
@@ -87,20 +87,20 @@ Cron('59 23 * * *', async () => {
                                 inline: true
                             }
                         )
-                        .setColor('#2F3136')
+                        .setColor("#2F3136")
                         .setTimestamp()
                         .setFooter({ text: `JPMCU • Loan ID#${loans[i].loan_id}`, iconURL: client.user.avatarURL() });
 
                     // Check if the user has enough money to pay the loan payment
-                    const userID = (await client.query(`SELECT id FROM users WHERE name = '${loans[i].name}';`))[0].id;
-                    const userBalance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'cr';`))[0]['SUM(amount)'] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = '${userID}' AND dr_cr = 'dr';`))[0]['SUM(amount)'];
+                    const userID = (await client.query(`SELECT id FROM users WHERE name = "${loans[i].name}";`))[0].id;
+                    const userBalance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND dr_cr = "cr";`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND dr_cr = "dr";`))[0]["SUM(amount)"];
                     if (userBalance >= amountDue) {
                         // Create a button to pay the loan payment
                         const payLoanButton = new ButtonBuilder()
-                            .setCustomId('payLoan_button')
-                            .setLabel('Pay Loan')
-                            .setEmoji('💸')
-                            .setStyle('Success');
+                            .setCustomId("payLoan_button")
+                            .setLabel("Pay Loan")
+                            .setEmoji("💸")
+                            .setStyle("Success");
 
                         const buttonRow = new ActionRowBuilder()
                             .addComponents(payLoanButton);
