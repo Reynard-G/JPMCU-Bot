@@ -2,12 +2,6 @@ const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const Cron = require("croner");
 const client = require("..");
 
-function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-}
-
 function convertPeriodToDays(period) {
     if (period === "+1 day") return 1;
     if (period === "+1 week") return 7;

@@ -6,15 +6,15 @@ module.exports = {
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
     run: async (client, interaction) => {
+        // Convert date to unix time
+        function convertToUnixTime(date) {
+            return (Date.parse(`${date}`) / 1000);
+        }
+
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
 
         try {
-            // Convert date to unix time
-            function convertToUnixTime(date) {
-                return (Date.parse(`${date}`) / 1000);
-            }
-
             // Check if user is registered
             const userExists = (await client.query(`SELECT 1 FROM users WHERE name = "${interaction.user.id}";`));
             if (!((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty("1")))) {

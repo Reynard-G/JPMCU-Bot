@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     id: "payLoan_button",
@@ -14,7 +14,7 @@ module.exports = {
 
             // Get the next repayment date and convert it to local time
             const tomorrow = new Date();
-            var offset = (new Date().getTimezoneOffset() / 60) * -1;
+            const offset = (new Date().getTimezoneOffset() / 60) * -1;
             tomorrow.setHours(tomorrow.getHours() + offset);
             tomorrow.setDate(tomorrow.getDate() + 1);
             const tomorrowDate = tomorrow.toISOString().slice(0, 10).replace("T", " ");

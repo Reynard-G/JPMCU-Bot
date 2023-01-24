@@ -24,7 +24,7 @@ client.on("interactionCreate", async interaction => {
                         new EmbedBuilder()
                             .setColor("Red")
                             .setTitle(`Failed To Execute Modals!`)
-                            .setDescription(`I can\'t execute the modal for you.`)
+                            .setDescription(`I can't execute the modal for you.`)
                             .setTimestamp()
                             .setFooter({ text: `FAILED MODAL`, iconURL: interaction.guild.iconURL() })
                     ]
