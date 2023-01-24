@@ -98,12 +98,12 @@ Cron("0 15 * * 0", async () => {
             }
         );
         const stockBars = [];
-        for await (let b of barStockData) {
+        for (let b of barStockData) {
             stockBars.push(b);
         }
 
         let cryptoBars = [];
-        for await (let ticker of Object.keys(client.cryptoTickers)) {
+        for (let ticker of Object.keys(client.cryptoTickers)) {
             let barCryptoData = await client.alpaca.getCryptoBars(
                 ticker,
                 {
@@ -112,7 +112,7 @@ Cron("0 15 * * 0", async () => {
                     timeframe: "1Week",
                 }
             );
-            for await (let b of barCryptoData) {
+            for (let b of barCryptoData) {
                 cryptoBars.push(b);
             }
         }
