@@ -2,6 +2,8 @@
 
 # JPMCU Discord Bot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cb9b546e20c4836a4e84db450e396da)](https://app.codacy.com/gh/Reynard-G/JPMCU-Bot?utm_source=github.com&utm_medium=referral&utm_content=Reynard-G/JPMCU-Bot&utm_campaign=Badge_Grade_Settings)
+
 The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
 
 ## Commands/Features
