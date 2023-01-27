@@ -28,6 +28,7 @@ module.exports = {
         const price = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? "stockMarket" : "cryptoMarket"}.json`, "utf8"))[ticker].Price;
         const updated = JSON.parse(fs.readFileSync(`data/${Object.keys(client.stockTickers).includes(ticker) ? "stockMarket" : "cryptoMarket"}.json`, "utf8"))[ticker].Timestamp;
         const imageChart = new AttachmentBuilder(`data/charts/${ticker}BarChart.png`);
+        const imageLogo = new AttachmentBuilder(`assets/logos/${ticker}.png`);
 
         return interaction.editReply({
             embeds: [
@@ -39,12 +40,14 @@ module.exports = {
                         { name: "Last Updated", value: `<t:${moment(updated).unix()}:f>`, inline: true }
                     )
                     .setImage(`attachment://${ticker}BarChart.png`)
+                    .setThumbnail(`attachment://${ticker}.png`)
                     .setColor("2F3136")
                     .setTimestamp()
                     .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
             ],
             files: [
-                imageChart
+                imageChart,
+                imageLogo
             ]
         });
     }

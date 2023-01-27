@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const bcrypt = require("bcrypt");
+const checkUser = require("../utils/checkUser");
 
 module.exports = {
     id: "agreeContract_modal",
@@ -10,19 +11,7 @@ module.exports = {
 
         try {
             // Check if user is already registered
-            const userExists = (await client.query(`SELECT 1 FROM users WHERE name = "${interaction.user.id}";`));
-            if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty("1"))) {
-                return await interaction.editReply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle("Registration Failed")
-                            .setDescription(`You are already registered with JPMCU. If you believe this is an error, please contact a staff member by opening a ticket.`)
-                            .setColor("Red")
-                            .setTimestamp()
-                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
-                    ]
-                });
-            }
+            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true))) return;
 
             // Check if password is valid
             const password = interaction.fields.getTextInputValue("passwordInput");

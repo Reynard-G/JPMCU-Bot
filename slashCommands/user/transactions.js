@@ -1,4 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const checkUser = require("../../utils/checkUser");
 
 module.exports = {
     name: "transactions",
@@ -16,19 +17,7 @@ module.exports = {
 
         try {
             // Check if user is registered
-            const userExists = (await client.query(`SELECT 1 FROM users WHERE name = "${interaction.user.id}";`));
-            if (!((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty("1")))) {
-                return await interaction.editReply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle("Transaction History Check Failed")
-                            .setDescription(`You are not registered with JPMCU. Please register by typing \`/register\`. If you believe this is an error, please contact a staff member by opening a ticket.`)
-                            .setColor("Red")
-                            .setTimestamp()
-                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
-                    ]
-                });
-            }
+            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true))) return;
 
             // Dictionary of transaction types
             const types = {

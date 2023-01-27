@@ -1,4 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
+const checkUser = require("../../utils/checkUser");
 
 module.exports = {
     name: "register",
@@ -11,9 +12,8 @@ module.exports = {
 
         try {
             // Check if user is already registered
-            const userExists = (await client.query(`SELECT 1 FROM users WHERE name = "${interaction.user.id}";`));
-            if ((Object.keys(userExists).length > 0) && (userExists[0].hasOwnProperty("1"))) {
-                return await interaction.editReply({
+            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true, true))) {
+                return interaction.editReply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("Registration Failed")
@@ -23,14 +23,14 @@ module.exports = {
                             .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
                     ]
                 });
-            }
+            };
 
             const contractEmbed = new EmbedBuilder()
                 .setTitle("JPMCU Account Registration")
                 .setDescription(`Hello! We have a standard membership contract for you to look over, if you have any questions at all please ask. If you"re ready, please agree to the following contract by clicking the \`I Agree\` button below.` +
                     "\n\nhttps://docs.google.com/document/d/1V5ucuAc_41dCgEIeNsMfWUUtdP6rwk4u6bG7iTpys5w/edit?usp=sharing" +
                     "\n\n***Note:** We have a $350 registration fee and a minimum balance of $500 is needed to keep an account active*"
-                    )
+                )
                 .setColor("#2F3136")
                 .setFooter({ text: "JPMCU", iconURL: interaction.guild.iconURL() })
                 .setTimestamp();

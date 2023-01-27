@@ -98,7 +98,7 @@ Cron("0 15 * * 0", async () => {
             }
         );
         const stockBars = [];
-        for (let b of barStockData) {
+        for await (let b of barStockData) {
             stockBars.push(b);
         }
 
@@ -112,7 +112,7 @@ Cron("0 15 * * 0", async () => {
                     timeframe: "1Week",
                 }
             );
-            for (let b of barCryptoData) {
+            for await (let b of barCryptoData) {
                 cryptoBars.push(b);
             }
         }

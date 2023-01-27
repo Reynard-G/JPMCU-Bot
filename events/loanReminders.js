@@ -1,4 +1,4 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Cron = require("croner");
 const client = require("..");
 
@@ -24,7 +24,7 @@ Cron("59 23 * * *", async () => {
         const loanDetails = await client.query(`SELECT id, loan_product_id, borrower_id, first_payment_date, applied_amount, total_payable, total_paid FROM loans WHERE status = 1;`);
         const loanTerms = await client.query(`SELECT id, term, term_period FROM loan_products;`);
         const usernames = await client.query(`SELECT id, name FROM users;`);
-        const loansCount = (await client.query(`SELECT COUNT(*) FROM loans;`))[0]["COUNT(*)"];
+        const loansCount = (await client.query(`SELECT COUNT(*) FROM loans WHERE status = 1;`))[0]["COUNT(*)"];
 
         // Compile all the loan details into an array
         let userID, loanID, paid, payable;
@@ -51,12 +51,15 @@ Cron("59 23 * * *", async () => {
         let amountDue = 0;
         let tomorrow = new Date();
         tomorrow.setDate((new Date()).getDate() + 1);
+
         for (let i = 0; i < loans.length; i++) {
             let periodDate = new Date();
             let paymentDate = loans[i].first_payment_date;
+
             for (let j = 0; j < loans[i].term; j++) {
                 // Add the term period to the payment date
                 periodDate.setDate(paymentDate.getDate() + (convertPeriodToDays(loans[i].term_period) * j));
+
                 // Check all period dates to see if they match tomorrow's date
                 if (periodDate.getDate() === tomorrow.getDate() && periodDate.getMonth() === tomorrow.getMonth() && periodDate.getFullYear() === tomorrow.getFullYear()) {
                     amountDue = +(Math.round((loans[i].loan_payable / loans[i].term) + "e+2") + "e-2");
@@ -85,30 +88,17 @@ Cron("59 23 * * *", async () => {
                         .setTimestamp()
                         .setFooter({ text: `JPMCU • Loan ID#${loans[i].loan_id}`, iconURL: client.user.avatarURL() });
 
-                    // Check if the user has enough money to pay the loan payment
-                    const userID = (await client.query(`SELECT id FROM users WHERE name = "${loans[i].name}";`))[0].id;
-                    const userBalance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND dr_cr = "cr";`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${userID}" AND dr_cr = "dr";`))[0]["SUM(amount)"];
-                    if (userBalance >= amountDue) {
-                        // Create a button to pay the loan payment
-                        const payLoanButton = new ButtonBuilder()
-                            .setCustomId("payLoan_button")
-                            .setLabel("Pay Loan")
-                            .setEmoji("💸")
-                            .setStyle("Success");
+                    console.log(`Send to ${loans[i].name} that their loan payment is due tomorrow.`);
+                    await user.send({ embeds: [reminderEmbed] });
 
-                        const buttonRow = new ActionRowBuilder()
-                            .addComponents(payLoanButton);
-
-                        console.log(`Send to ${loans[i].name} that their loan payment is due tomorrow.`);
-                        await user.send({ embeds: [reminderEmbed], components: [buttonRow] });
-                    } else {
-                        console.log(`Send to ${loans[i].name} that their loan payment is due tomorrow.`);
-                        await user.send({ embeds: [reminderEmbed] });
-                    }
                 }
             }
         }
     } catch (err) {
         console.log(err);
     }
-});
+},
+    {
+        timezone: "America/Chicago"
+    }
+);

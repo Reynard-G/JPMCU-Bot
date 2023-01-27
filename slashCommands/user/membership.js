@@ -1,4 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
+const checkUser = require("../../utils/checkUser");
+const userBalance = require("../../utils/userBalance");
+const checkRole = require("../../utils/checkRole");
 
 module.exports = {
     name: "membership",
@@ -43,24 +46,12 @@ module.exports = {
         }
 
         // Check if user is not registered
-        const userExists = (await client.query(`SELECT 1 FROM users WHERE name = "${userID}";`));
-        if ((Object.keys(userExists).length === 0) || (!userExists[0].hasOwnProperty("1"))) {
-            return await interaction.editReply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle("Registration Failed")
-                        .setDescription(`You are not registered with JPMCU. Please register with the \`/register\` command.`)
-                        .setColor("Red")
-                        .setTimestamp()
-                        .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
-                ]
-            });
-        }
+        if (!(await checkUser.userExists(client, interaction, interaction.user.id, true))) return;
 
         // Check if user already has the membership role
         require("dotenv").config();
         const roleID = process.env.MEMBER_ROLE_ID;
-        if (interaction.guild.members.cache.get(userID).roles.cache.has(roleID)) {
+        if (await checkRole.userHasRole(interaction, userID, roleID)) {
             return await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
@@ -78,7 +69,7 @@ module.exports = {
             if (user === null) {
                 // Check if user has enough money
                 const bankID = (await client.query(`SELECT id FROM users WHERE name = "${userID}";`))[0].id;
-                const balance = (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${bankID}" AND dr_cr = "cr";`))[0]["SUM(amount)"] - (await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${bankID}" AND dr_cr = "dr";`))[0]["SUM(amount)"];
+                const balance = await userBalance.getBalance(client, interaction.user.id);
 
                 if (balance < 850) {
                     return await interaction.editReply({
