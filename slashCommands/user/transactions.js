@@ -1,5 +1,6 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const checkUser = require("../../utils/checkUser");
+const { userExists } = require("../../utils/checkUser");
+const { pageEmbed } = require("../../utils/pagedEmbed");
 
 module.exports = {
     name: "transactions",
@@ -17,7 +18,7 @@ module.exports = {
 
         try {
             // Check if user is registered
-            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true))) return;
+            if (!(await userExists(client, interaction, interaction.user.id, true))) return;
 
             // Dictionary of transaction types
             const types = {
@@ -44,7 +45,7 @@ module.exports = {
                 .setDescription(`For privacy reasons, you can only switch between pages of your transaction history for **5 minutes**.`)
                 .setColor("#2F3136")
                 .setTimestamp()
-                .setFooter({ text: `JPMCU | Page ${page + 1}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
+                .setFooter({ text: `JPMCU • Page 1 of ${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
 
             for (let i = 0; i < transactions.length; i++) {
                 if (i % 10 === 0 && i !== 0) {
@@ -54,7 +55,7 @@ module.exports = {
                         .setDescription(`For privacy reasons, you can only switch between pages of your transaction history for **5 minutes**.`)
                         .setColor("#2F3136")
                         .setTimestamp()
-                        .setFooter({ text: `JPMCU | Page ${page + 2}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
+                        .setFooter({ text: `JPMCU • Page ${Math.ceil(i / 10)}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
                     page++;
                 }
 
@@ -70,13 +71,6 @@ module.exports = {
                 );
             }
             pages.push(embed);
-
-            // If the user has less than 10 transactions, just send the embed
-            if (pages.length === 1) {
-                return await interaction.editReply({
-                    embeds: [pages[0]]
-                });
-            }
 
             // Create the buttons
             const buttons = new ActionRowBuilder()
@@ -95,47 +89,7 @@ module.exports = {
                         .setDisabled(pages.length === 1)
                 );
 
-            // Send the first page
-            const msg = await interaction.editReply({
-                embeds: [pages[0]],
-                components: [buttons]
-            });
-
-            // Create a collector for the buttons
-            const filter = (button) => button.user.id === interaction.user.id;
-            const collector = msg.createMessageComponentCollector({ filter, time: 300000 });
-
-            // When a button is pressed, edit the message with the new page
-            page = 0;
-            collector.on("collect", async (button) => {
-                if (button.customId === "previous") {
-                    page--;
-                    buttons.components[0].setDisabled(page === 0);
-                    buttons.components[1].setDisabled(false);
-                    await button.update({
-                        embeds: [pages[page]],
-                        components: [buttons]
-                    });
-                } else if (button.customId === "next") {
-                    page++;
-                    buttons.components[0].setDisabled(false);
-                    buttons.components[1].setDisabled(page === (pages.length - 1));
-                    await button.update({
-                        embeds: [pages[page]],
-                        components: [buttons]
-                    });
-                }
-            });
-
-            // When the collector times out, disable the buttons
-            collector.on("end", async () => {
-                buttons.components[0].setDisabled(true);
-                buttons.components[1].setDisabled(true);
-                return await interaction.editReply({
-                    embeds: [pages[page]],
-                    components: [buttons]
-                });
-            });
+            pageEmbed(interaction, pages, buttons);
         } catch (err) {
             console.error(err);
             return await interaction.editReply({

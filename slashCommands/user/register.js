@@ -1,5 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const checkUser = require("../../utils/checkUser");
+const { userExists } = require("../../utils/checkUser");
 
 module.exports = {
     name: "register",
@@ -12,7 +12,7 @@ module.exports = {
 
         try {
             // Check if user is already registered
-            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true, true))) {
+            if (!(await userExists(client, interaction, interaction.user.id, true, true))) {
                 return interaction.editReply({
                     embeds: [
                         new EmbedBuilder()

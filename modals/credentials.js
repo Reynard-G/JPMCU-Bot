@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const bcrypt = require("bcrypt");
-const checkUser = require("../utils/checkUser");
+const { userExists } = require("../utils/checkUser");
 
 module.exports = {
     id: "agreeContract_modal",
@@ -11,7 +11,7 @@ module.exports = {
 
         try {
             // Check if user is already registered
-            if (!(await checkUser.userExists(client, interaction, interaction.user.id, true))) return;
+            if (!(await userExists(client, interaction, interaction.user.id, true))) return;
 
             // Check if password is valid
             const password = interaction.fields.getTextInputValue("passwordInput");
