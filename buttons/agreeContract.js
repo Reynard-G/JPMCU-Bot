@@ -4,8 +4,6 @@ module.exports = {
     id: "agreeContract_button",
     permissions: [],
     run: async (client, interaction) => {
-        const { contractEmbed, buttonRow } = require("../slashCommands/user/register.js");
-
         const credentialsModal = new ModalBuilder()
             .setTitle("Register")
             .setCustomId("agreeContract_modal");
@@ -38,10 +36,9 @@ module.exports = {
         await interaction.showModal(credentialsModal);
 
         // Disable both buttons
-        buttonRow.components.forEach((button) => {
-            button.setDisabled(true);
-        });
+        const buttonRow = ActionRowBuilder.from(interaction.message.components[0]);
+        buttonRow.components.forEach(button => button.setDisabled(true));
 
-        return await interaction.editReply({ embeds: [contractEmbed], components: [buttonRow] });
+        return await interaction.editReply({ components: [buttonRow] });
     }
 };

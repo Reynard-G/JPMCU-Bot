@@ -72,7 +72,7 @@ module.exports = {
                 components: [buttonRow]
             });
 
-            return module.exports = { interestEmbed, buttonRow, users, percentage };
+            return module.exports = { users, percentage };
         } catch (err) {
             console.log(err);
             return await interaction.editReply({

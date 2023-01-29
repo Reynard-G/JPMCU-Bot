@@ -1,20 +1,15 @@
-const { EmbedBuilder } = require("discord.js");
+const { ActionRowBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
     id: "cancelInterest_button",
     permissions: [],
     run: async (client, interaction) => {
-        let { interestEmbed, buttonRow } = require("../slashCommands/admin/interest.js");
-
         // Disable the buttons
+        const buttonRow = ActionRowBuilder.from(interaction.message.components[0]);
         buttonRow.components.forEach(button => button.setDisabled(true));
 
         // Edit the embed with the new disabled buttons
-        await interaction.update({
-            ephemeral: true,
-            embeds: [interestEmbed],
-            components: [buttonRow]
-        });
+        await interaction.update({ components: [buttonRow] });
 
         // Send a follow-up embed saying the command was canceled
         return await interaction.followUp({

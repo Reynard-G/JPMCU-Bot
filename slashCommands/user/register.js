@@ -53,7 +53,6 @@ module.exports = {
                 embeds: [contractEmbed],
                 components: [buttonRow]
             });
-            return module.exports = { contractEmbed, buttonRow };
         } catch (err) {
             console.log(err);
             return await interaction.editReply({

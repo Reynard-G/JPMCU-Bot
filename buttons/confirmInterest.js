@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { ActionRowBuilder, EmbedBuilder } = require("discord.js");
 const { Decimal } = require("decimal.js");
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
     permissions: [],
     run: async (client, interaction) => {
 
-        const { interestEmbed, buttonRow, users, percentage } = require("../slashCommands/admin/interest.js");
+        const { users, percentage } = require("../slashCommands/admin/interest.js");
         let totalInterest = 0;
 
         try {
@@ -29,13 +29,11 @@ module.exports = {
                 await client.query(`INSERT INTO transactions (id, user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES ("${maxID}", "${id}", "4", "${interest}", "0.00", "cr", "Deposit", "Manual", "2", "${month} Interest", "${id}", NOW(), NOW());`);
             }
             // Disable the buttons
+            const buttonRow = ActionRowBuilder.from(interaction.message.components[0]);
             buttonRow.components.forEach(button => button.setDisabled(true));
 
             // Edit the embed with the new disabled buttons
-            await interaction.editReply({
-                embeds: [interestEmbed],
-                components: [buttonRow]
-            });
+            await interaction.editReply({ components: [buttonRow] });
 
             // Send a follow-up embed saying the command was canceled
             await interaction.followUp({
