@@ -39,7 +39,6 @@ module.exports = {
 
             // Create a embed page per 10 transactions and uses buttons to navigate between pages
             const pages = [];
-            let page = 0;
             let embed = new EmbedBuilder()
                 .setAuthor({ name: `Transaction History`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/transactions.gif` })
                 .setDescription(`For privacy reasons, you can only switch between pages of your transaction history for **5 minutes**.`)
@@ -56,7 +55,6 @@ module.exports = {
                         .setColor("#2F3136")
                         .setTimestamp()
                         .setFooter({ text: `JPMCU • Page ${Math.ceil(i / 10)}/${Math.ceil(transactions.length / 10)}`, iconURL: interaction.guild.iconURL() });
-                    page++;
                 }
 
                 embed.addFields(

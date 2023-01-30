@@ -23,7 +23,7 @@ module.exports = {
                             .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
                     ]
                 });
-            };
+            }
 
             const contractEmbed = new EmbedBuilder()
                 .setTitle("JPMCU Account Registration")

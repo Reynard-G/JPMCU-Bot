@@ -6,10 +6,9 @@ module.exports = {
     description: "Check if the market is open or closed.",
     run: async (client, interaction) => {
         const clock = await client.alpaca.getClock();
-        const currentDate = new Date();
-        const status = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? "open" : "closed";
-        const nextStatus = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? "closed" : "open";
-        const nextStatusTime = moment(currentDate).isAfter(clock.next_open) && moment(currentDate).isBefore(clock.next_close) ? moment(clock.next_close).unix() : moment(clock.next_open).unix();
+        const status = clock.is_open ? "open" : "closed";
+        const nextStatus = clock.is_open ? "closed" : "opened";
+        const nextStatusTime = clock.is_open ? moment(clock.next_close).unix() : moment(clock.next_open).unix();
 
         interaction.reply({
             ephemeral: true,
