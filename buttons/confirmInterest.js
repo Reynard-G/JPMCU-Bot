@@ -52,7 +52,7 @@ module.exports = {
             });
         } catch (err) {
             console.log(err);
-            return await interaction.reply({
+            return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
