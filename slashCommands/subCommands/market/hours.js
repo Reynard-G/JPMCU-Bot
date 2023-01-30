@@ -3,7 +3,6 @@ const moment = require("moment");
 
 module.exports = {
     name: "hours",
-    description: "Check if the market is open or closed.",
     run: async (client, interaction) => {
         const clock = await client.alpaca.getClock();
         const status = clock.is_open ? "open" : "closed";

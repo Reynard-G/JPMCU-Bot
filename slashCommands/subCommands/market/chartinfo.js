@@ -2,7 +2,6 @@ const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 
 module.exports = {
     name: "chartinfo",
-    description: "How to understand a candlestick chart as displayed in /market info.",
     run: async (client, interaction) => {
         const image = new AttachmentBuilder(`assets/chartinfo.png`);
         return interaction.reply({

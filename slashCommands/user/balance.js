@@ -6,6 +6,7 @@ module.exports = {
     name: "balance",
     description: "Check your JPMCU account balance.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out

@@ -30,11 +30,13 @@ module.exports = (client) => {
 		const files = fs.readdirSync(`./slashCommands/${dir}/`).filter(file => file.endsWith(".js"));
 		for (const file of files) {
 			const slashCommand = require(`../slashCommands/${dir}/${file}`);
+			console.log(slashCommand.dm_permission)
 			slashCommands.push({
 				name: slashCommand.name,
 				description: slashCommand.description,
 				type: slashCommand.type,
 				options: slashCommand.options ? slashCommand.options : null,
+				dm_permission: slashCommand.dm_permission ?? null,
 				default_permission: slashCommand.default_permission ? slashCommand.default_permission : null,
 				default_member_permissions: slashCommand.default_member_permissions ? PermissionsBitField.resolve(slashCommand.default_member_permissions).toString() : null
 			});
@@ -48,6 +50,7 @@ module.exports = (client) => {
 		}
 
 	});
+	console.log(slashCommands)
 	console.log(chalk.red(table.toString()));
 
 	(async () => {

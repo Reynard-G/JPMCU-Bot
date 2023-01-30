@@ -5,6 +5,7 @@ module.exports = {
     name: "register",
     description: "Register an account with JPMCU.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out

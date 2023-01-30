@@ -6,6 +6,7 @@ module.exports = {
     name: "transactions",
     description: "Check your JPMCU account transaction history.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Convert date to unix time

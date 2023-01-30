@@ -2,7 +2,6 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 module.exports = {
     name: "tickers",
-    description: "A list of available tickers for the market commands.",
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });

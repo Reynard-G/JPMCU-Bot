@@ -4,6 +4,7 @@ module.exports = {
     name: "info",
     description: "Information about JPMCU.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     run: async (client, interaction) => {
         // Create an embed with information about JPMCU

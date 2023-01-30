@@ -7,6 +7,7 @@ module.exports = {
     name: "membership",
     description: "Apply for JPMCU membership. Requires at least $850 in your account.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     options: [
         {

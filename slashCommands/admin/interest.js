@@ -5,6 +5,7 @@ module.exports = {
     name: "interest",
     description: "Apply interest to all accounts.",
     type: ApplicationCommandType.ChatInput,
+    dm_permission: false,
     cooldown: 3000,
     default_member_permissions: "Administrator",
     options: [

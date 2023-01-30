@@ -4,7 +4,6 @@ const moment = require("moment");
 
 module.exports = {
     name: "info",
-    description: "Check the price of a stock/crypto.",
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
