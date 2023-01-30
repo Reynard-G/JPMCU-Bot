@@ -17,7 +17,7 @@ module.exports = {
                 // Get all user IDs
                 const id = users[i].id;
                 // Select user balance from "transactions" database
-                const balance = (Decimal.sub(new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${id}" AND dr_cr = "cr";`))[0]["SUM(amount)"]}`), new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${id}" AND dr_cr = "dr";`))[0]["SUM(amount)"]}`))).toDecimalPlaces(2);
+                const balance = (Decimal.sub(new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${id}" AND dr_cr = "cr";`))[0]["SUM(amount)"] ?? 0.00}`), new Decimal(`${(await client.query(`SELECT SUM(amount) FROM transactions WHERE user_id = "${id}" AND dr_cr = "dr";`))[0]["SUM(amount)"] ?? 0.00}`))).toDecimalPlaces(2);
                 // Calculate interest
                 const interest = (Decimal.mul(Decimal.div(balance, 100), percentage)).toDecimalPlaces(2);
                 // Get current month in name
