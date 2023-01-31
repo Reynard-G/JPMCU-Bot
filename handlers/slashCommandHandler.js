@@ -30,7 +30,6 @@ module.exports = (client) => {
 		const files = fs.readdirSync(`./slashCommands/${dir}/`).filter(file => file.endsWith(".js"));
 		for (const file of files) {
 			const slashCommand = require(`../slashCommands/${dir}/${file}`);
-			console.log(slashCommand.dm_permission)
 			slashCommands.push({
 				name: slashCommand.name,
 				description: slashCommand.description,
@@ -50,7 +49,6 @@ module.exports = (client) => {
 		}
 
 	});
-	console.log(slashCommands)
 	console.log(chalk.red(table.toString()));
 
 	(async () => {

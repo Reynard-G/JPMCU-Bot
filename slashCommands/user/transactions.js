@@ -1,6 +1,6 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const { userExists } = require("../../utils/checkUser");
-const { pageEmbed } = require("../../utils/pagedEmbed");
+const checkUser = require("../../utils/checkUser.js");
+const { pageEmbed } = require("../../utils/pagedEmbed.js");
 
 module.exports = {
     name: "transactions",
@@ -19,7 +19,7 @@ module.exports = {
 
         try {
             // Check if user is registered
-            if (!(await userExists(client, interaction, interaction.user.id, true))) return;
+            if (!(await checkUser.exists(client, interaction, interaction.user.id, true))) return;
 
             // Dictionary of transaction types
             const types = {

@@ -1,7 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
-const { userExists } = require("../../utils/checkUser");
-const { getBalance } = require("../../utils/userBalance");
-const { userHasRole } = require("../../utils/checkRole");
+const checkUser = require("../../utils/checkUser.js");
 
 module.exports = {
     name: "membership",
@@ -47,12 +45,12 @@ module.exports = {
         }
 
         // Check if user is not registered
-        if (!(await userExists(client, interaction, interaction.user.id, true))) return;
+        if (!(await checkUser.exists(client, interaction, interaction.user.id, true))) return;
 
         // Check if user already has the membership role
         require("dotenv").config();
         const roleID = process.env.MEMBER_ROLE_ID;
-        if (await userHasRole(interaction, userID, roleID)) {
+        if (await checkUser.hasRole(interaction, userID, roleID)) {
             return await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
@@ -70,7 +68,7 @@ module.exports = {
             if (user === null) {
                 // Check if user has enough money
                 const bankID = (await client.query(`SELECT id FROM users WHERE name = "${userID}";`))[0].id;
-                const balance = await getBalance(client, interaction.user.id);
+                const balance = await checkUser.balance(client, interaction.user.id);
 
                 if (balance < 850) {
                     return await interaction.editReply({

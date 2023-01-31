@@ -1,6 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType } = require("discord.js");
-const { userExists } = require("../../utils/checkUser");
-const { getBalance } = require("../../utils/userBalance");
+const checkUser = require("../../utils/checkUser.js");
 
 module.exports = {
     name: "balance",
@@ -14,10 +13,10 @@ module.exports = {
 
         try {
             // Check if user is registered
-            if (!(await userExists(client, interaction, interaction.user.id, true))) return;
+            if (!(await checkUser.exists(client, interaction, interaction.user.id, true))) return;
 
             // Calculate user's balance by using transactions table based on the type of entry (dr or cr)
-            const balance = await getBalance(client, interaction.user.id);
+            const balance = await checkUser.balance(client, interaction.user.id);
 
             return await interaction.editReply({
                 ephemeral: true,
