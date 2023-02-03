@@ -16,6 +16,11 @@ The JPMCU Bot is responsible for integrating JPMCU's website right into Discord
 -   `/market hours` - Displays the real-life market hours
 -   `/market tickers` - Display available tickers
 -   `/market info` - Display current share price with 1 year chart
+-   `/market chartinfo` - Displays information on how to read a candlestick chart
+-   `/market portfolio` - Displays the user's stock portfolio
+-   `/market transactions` - Displays past stock transactions
+-   `/market buy` - Buys an amount of shares for the real-time market price
+-   `/market sell` - Sells an amount of shares for the real-time market price
 -   Loan Reminders a day before a payment is due
 -   Automating interest payments for Administrators
 
