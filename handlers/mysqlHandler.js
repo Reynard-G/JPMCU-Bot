@@ -12,6 +12,7 @@ module.exports = (client) => {
         port: process.env.DB_PORT,
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
+        multipleStatements: true,
         timezone: "America/Chicago",
         connectionLimit: 5
     });

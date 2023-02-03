@@ -5,7 +5,7 @@ const checkUser = require("../../../utils/checkUser.js");
 const checkMarket = require("../../../utils/checkMarket.js");
 
 module.exports = {
-    name: "buy",
+    name: "sell",
     run: async (client, interaction) => {
         // Defer the reply so the bot doesn't time out
         await interaction.deferReply({ ephemeral: true });
@@ -20,29 +20,31 @@ module.exports = {
         const stockData = await checkMarket.tickerType(client, ticker) === "stock" ? JSON.parse(fs.readFileSync("./data/stockMarket.json")) : JSON.parse(fs.readFileSync("./data/cryptoMarket.json"));
         const sharePrice = stockData[ticker].Price;
 
-        // Check if the user has enough money to buy the amount of shares they want
-        const user = await checkUser.balance(client, interaction.user.id);
-        if (user < (sharePrice * amount)) {
-            const embed = new EmbedBuilder()
-                .setTitle("Insufficient Funds")
-                .setDescription(`You do not have enough money to buy **${amount}** shares of **${ticker}** worth **$${(sharePrice * amount).toLocaleString()}**.`)
-                .setColor("Red")
-                .setTimestamp()
-                .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() });
-
-            return await interaction.editReply({ embeds: [embed] });
+        // Check if the user has enough shares to sell
+        const portfolio = await checkMarket.portfolio(client, interaction.user.id);
+        if (portfolio[ticker] < amount || portfolio[ticker] === undefined) {
+            return interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Not Enough Shares")
+                        .setDescription(`You do not have enough shares to sell.`)
+                        .setColor("Red")
+                        .setTimestamp()
+                        .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
+                ]
+            });
         }
 
         // Update the user's balance and stocks
         const totalPrice = Decimal.mul(sharePrice, amount).toLocaleString();
-        const transactionID = (await client.query(`INSERT INTO transactions (user_id, currency_id, amount, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()); SELECT LAST_INSERT_ID()`, [await checkUser.id(client, interaction.user.id), 4, totalPrice, "dr", "Withdraw", "JPMCU Bot", 2, `Bought ${amount} shares of ${ticker} for $${totalPrice}`, await checkUser.id(client, interaction.user.id)]))[1][0]["LAST_INSERT_ID()"];
-        await client.query(`INSERT INTO stockmarket_transactions (user_id, name, ticker, amount, price, type, created_user_id, transaction_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [await checkUser.id(client, interaction.user.id), interaction.user.id, ticker, amount, totalPrice, "buy", interaction.user.id, transactionID]);
+        const transactionID = (await client.query(`INSERT INTO transactions (user_id, currency_id, amount, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()); SELECT LAST_INSERT_ID()`, [await checkUser.id(client, interaction.user.id), 4, totalPrice, "cr", "Withdraw", "JPMCU Bot", 2, `Sold ${amount} shares of ${ticker} for $${totalPrice}`, await checkUser.id(client, interaction.user.id)]))[1][0]["LAST_INSERT_ID()"];
+        await client.query(`INSERT INTO stockmarket_transactions (user_id, name, ticker, amount, price, type, created_user_id, transaction_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [await checkUser.id(client, interaction.user.id), interaction.user.id, ticker, amount, totalPrice, "sell", interaction.user.id, transactionID]);
 
         await interaction.editReply({
             embeds: [
                 new EmbedBuilder()
-                    .setAuthor({ name: "Shares Purchased", iconURL: "https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/marketbuysell.gif" })
-                    .setDescription(`Your purchase has been completed. \nYour buy order details can be seen below.`)
+                    .setAuthor({ name: "Shares Sold", iconURL: "https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/marketbuysell.gif" })
+                    .setDescription(`Your sale has been completed. \nYour sell order details can be seen below.`)
                     .addFields(
                         {
                             name: "Details",

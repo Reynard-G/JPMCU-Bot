@@ -59,6 +59,39 @@ module.exports = {
                     required: true
                 }
             ],
+        },
+        {
+            name: "sell",
+            description: "Sell a share of a company",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
+            options: [
+                {
+                    name: "ticker",
+                    description: "The ticker of the company you want to sell",
+                    type: ApplicationCommandOptionType.String,
+                    required: true
+                },
+                {
+                    name: "amount",
+                    description: "The amount of shares you want to sell",
+                    type: ApplicationCommandOptionType.Integer,
+                    min_value: 1,
+                    required: true
+                }
+            ],
+        },
+        {
+            name: "portfolio",
+            description: "Check your stock portfolio",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
+        },
+        {
+            name: "transactions",
+            description: "Check your stock transactions",
+            type: ApplicationCommandOptionType.Subcommand,
+            cooldown: 3000,
         }
     ],
 };
