@@ -33,6 +33,19 @@ module.exports = {
             return await interaction.editReply({ embeds: [embed] });
         }
 
+        // Check if the user is buying more than the max amount of shares allowed per ticker
+        const portfolio = await checkMarket.portfolio(client, interaction.user.id);
+        if (Decimal.add(portfolio[ticker] || 0, amount).gt(100)) {
+            const embed = new EmbedBuilder()
+                .setTitle("Max Shares Exceeded")
+                .setDescription(`You cannot buy more than **100** shares of a single ticker. You already own **${portfolio[ticker]}** shares of **${ticker}**.`)
+                .setColor("Red")
+                .setTimestamp()
+                .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() });
+
+            return await interaction.editReply({ embeds: [embed] });
+        }
+
         // Update the user's balance and stocks
         const totalPrice = Decimal.mul(sharePrice, amount).toLocaleString();
         const transactionID = (await client.query(`INSERT INTO transactions (user_id, currency_id, amount, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()); SELECT LAST_INSERT_ID()`, [await checkUser.id(client, interaction.user.id), 4, totalPrice, "dr", "Withdraw", "JPMCU Bot", 2, `Bought ${amount} shares of ${ticker} for $${totalPrice}`, await checkUser.id(client, interaction.user.id)]))[1][0]["LAST_INSERT_ID()"];
