@@ -98,8 +98,8 @@ module.exports = {
 
                 // Deduct the registration fee
                 const registrationFee = 350;
-                await client.query(`INSERT INTO transactions (user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_at, updated_at) VALUES ("${bankID}", 4, ${registrationFee}, 0.00, "dr", "Withdraw", "Manual", 2, "Registration Fee through JPMCU Bot", NOW(), NOW());`);
-
+                await client.query(`INSERT INTO transactions (user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_at, updated_at) VALUES (?, 4, ?, 0.00, "dr", "Withdraw", "Manual", 2, "Registration Fee through JPMCU Bot", NOW(), NOW());`, [bankID, registrationFee]);
+                
                 // Give the user the membership role
                 await interaction.guild.members.cache.get(userID).roles.add(roleID);
                 return await interaction.editReply({

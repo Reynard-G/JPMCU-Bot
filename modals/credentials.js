@@ -11,7 +11,18 @@ module.exports = {
 
         try {
             // Check if user is already registered
-            if (!(await checkUser.exists(client, interaction, interaction.user.id, true))) return;
+            if (!(await checkUser.exists(client, interaction, interaction.user.id, true, true))) {
+                return interaction.editReply({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setTitle("Registration Failed")
+                            .setDescription(`You are already registered with JPMCU. If you believe this is an error, please contact a staff member by opening a ticket.`)
+                            .setColor("Red")
+                            .setTimestamp()
+                            .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
+                    ]
+                });
+            }
 
             // Check if password is valid
             const password = interaction.fields.getTextInputValue("passwordInput");
@@ -29,10 +40,9 @@ module.exports = {
             }
 
             // Assign user details
-            const id = parseInt((((await client.query(`SELECT MAX(id) FROM users;`))[0]["MAX(id)"]).toString()).replace("n", "")) + 1;
             const accountNumber = parseInt((((await client.query(`SELECT MAX(account_number) FROM users;`))[0]["MAX(account_number)"]).toString()).replace("n", "")) + 1;
-            await client.query(`INSERT INTO users (id, name, email, account_number, user_type, branch_id, status, profile_picture, password, created_at, updated_at, allow_withdrawal) VALUES (${id}, "${interaction.user.id}", "${interaction.fields.getTextInputValue("ignInput")}", ${accountNumber}, "customer", "1", "1", "", "${await bcrypt.hash(password, 10)}", NOW(), NOW(), "1");`);
-
+            await client.query(`INSERT INTO users (name, email, account_number, user_type, branch_id, status, profile_picture, password, created_at, updated_at, allow_withdrawal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?);`, [interaction.user.id, interaction.fields.getTextInputValue("ignInput"), accountNumber, "customer", "1", "1", "", await bcrypt.hash(password, 10), "1"]);
+            
             // Send the user their account credentials
             // Handle the error when the user has DMs disabled
             try {

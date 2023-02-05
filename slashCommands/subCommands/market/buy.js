@@ -38,7 +38,7 @@ module.exports = {
         if (Decimal.add(portfolio[ticker] || 0, amount).gt(100)) {
             const embed = new EmbedBuilder()
                 .setTitle("Max Shares Exceeded")
-                .setDescription(`You cannot buy more than **100** shares of a single ticker. You already own **${portfolio[ticker]}** shares of **${ticker}**.`)
+                .setDescription(`You cannot buy more than **100** shares of a single ticker. You already own **${portfolio[ticker] ?? 0}** shares of **${ticker}**.`)
                 .setColor("Red")
                 .setTimestamp()
                 .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() });

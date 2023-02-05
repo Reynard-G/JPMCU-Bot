@@ -5,7 +5,6 @@ module.exports = {
     id: "confirmInterest_button",
     permissions: [],
     run: async (client, interaction) => {
-
         const { users, percentage } = require("../slashCommands/admin/interest.js");
         let totalInterest = 0;
 
@@ -22,11 +21,9 @@ module.exports = {
                 const interest = (Decimal.mul(Decimal.div(balance, 100), percentage)).toDecimalPlaces(2);
                 // Get current month in name
                 const month = new Date().toLocaleString("default", { month: "long" });
-                // Get the max ID from "transactions" database
-                const maxID = Decimal.add(new Decimal(`${(await client.query(`SELECT MAX(id) FROM transactions`))[0]["MAX(id)"]}`), 1);
                 // Add interest to user balance
                 totalInterest = (Decimal.add(new Decimal(totalInterest), new Decimal(interest))).toDecimalPlaces(2);
-                await client.query(`INSERT INTO transactions (id, user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES ("${maxID}", "${id}", "4", "${interest}", "0.00", "cr", "Deposit", "Manual", "2", "${month} Interest", "${id}", NOW(), NOW());`);
+                await client.query(`INSERT INTO transactions (user_id, currency_id, amount, fee, dr_cr, type, method, status, note, created_user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());`, [id, 4, interest, '0.00', 'cr', 'Deposit', 'Manual', 2, `${month} Interest`, id]);
             }
             // Disable the buttons
             const buttonRow = ActionRowBuilder.from(interaction.message.components[0]);
