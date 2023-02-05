@@ -1,4 +1,4 @@
-exports.pageEmbed = async (interaction, pages, buttons, timeout = 300000) => {
+exports.pageEmbed = async (interaction, pages, buttons, timeout = 1000) => { //300000
     if (!interaction || !pages || !buttons || timeout < 0) throw new Error("Invalid arguments provided.");
 
     if (pages.length === 1) {
@@ -31,12 +31,7 @@ exports.pageEmbed = async (interaction, pages, buttons, timeout = 300000) => {
 
     // Disable buttons after timeout
     collector.on("end", () => {
-        buttons.forEach((row) => {
-            row.components.forEach((button) => {
-                button.setDisabled(true);
-            });
-        });
-
-        msg.edit({ embeds: [pages[page]], components: [buttons] });
+        buttons.components.forEach(button => button.setDisabled(true));
+        interaction.editReply({ components: [buttons] });
     });
 };
