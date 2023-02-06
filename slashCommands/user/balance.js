@@ -23,7 +23,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setAuthor({ name: `Balance Check`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/balance.gif` })
-                        .setDescription(`Your current balance is **$${balance}**.`)
+                        .setDescription(`Your current balance is **$${balance.toLocaleString()}**.`)
                         .setColor("#2F3136")
                         .setTimestamp()
                         .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
