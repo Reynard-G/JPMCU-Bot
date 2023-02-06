@@ -17,13 +17,13 @@ module.exports = {
 
             // Calculate user's balance by using transactions table based on the type of entry (dr or cr)
             const balance = await checkUser.balance(client, interaction.user.id);
-
+            
             return await interaction.editReply({
                 ephemeral: true,
                 embeds: [
                     new EmbedBuilder()
                         .setAuthor({ name: `Balance Check`, iconURL: `https://raw.githubusercontent.com/Reynard-G/JPMCU-Bot/master/assets/balance.gif` })
-                        .setDescription(`Your current balance is **$${balance.toLocaleString()}**.`)
+                        .setDescription(`Your current balance is **$${Number(balance).toLocaleString()}**.`)
                         .setColor("#2F3136")
                         .setTimestamp()
                         .setFooter({ text: `JPMCU`, iconURL: interaction.guild.iconURL() })
